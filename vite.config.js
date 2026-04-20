@@ -8,15 +8,16 @@ export default defineConfig({
   plugins: [
     react(), 
     viteSingleFile(),
-    {
-      name: 'no-attribute',
-      transformIndexHtml(html) {
-        return html.replace(/type="module"/g, 'defer').replace(/crossorigin/g, '');
-      }
-    }
   ],
   build: {
-    target: 'es2015',
-    cssTarget: 'chrome61', 
-  }
+    target: 'esnext',
+    assetsInlineLimit: 100000000, // Ensure everything is inlined
+    chunkSizeWarningLimit: 100000000,
+    cssCodeSplit: false,
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true,
+      },
+    },
+  },
 })
