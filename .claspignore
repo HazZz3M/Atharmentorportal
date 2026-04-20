@@ -1,0 +1,15 @@
+.git/
+.github/
+node_modules/
+src/
+backup/
+gas_upload/
+package.json
+package-lock.json
+README.md
+vite.config.js
+.gitignore
+task*.md
+walkthrough*.md
+implementation_plan*.md
+.eslint*
