@@ -72,12 +72,6 @@ function getRounds(isAdmin) {
   return rounds.sort(function(a,b){return b.id.localeCompare(a.id)}); 
 }
 
-function doGet() {
-  return HtmlService.createHtmlOutputFromFile('Index')
-    .setTitle('Mentor Portal')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
-}
-
 function getMentors(roundId) {
   var sh = getSheet_(roundId);
   var lastCol = sh.getLastColumn();
