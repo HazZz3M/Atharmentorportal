@@ -12,10 +12,21 @@ function getSettings_() {
 }
 
 function doGet(e) {
-  return HtmlService.createTemplateFromFile('index').evaluate()
-    .setTitle('Mentor Portal')
+  var template;
+  try {
+    template = HtmlService.createTemplateFromFile('index');
+  } catch (e) {
+    try {
+      template = HtmlService.createTemplateFromFile('Index');
+    } catch (e2) {
+      return HtmlService.createHtmlOutput("<b>Error:</b> HTML file 'index' or 'Index' not found in the script editor. Please ensure you have created an HTML file and pasted the build content into it.");
+    }
+  }
+  
+  return template.evaluate()
+    .setTitle('Mentor Portal | Athar')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
 }
 
 /**
