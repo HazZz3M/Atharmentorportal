@@ -1,0 +1,4593 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Mentor Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --bg-glass: rgba(255, 255, 255, 0.9);
+            --card: #ffffff;
+            --card-2: #f1f5f9;
+            --accent: #4338ca;
+            /* Refined Indigo-Blue */
+            --accent-2: #ffe92c;
+            /* Athar Yellow */
+            --brand: #4338ca;
+            --brand-2: #ffe92c;
+            --muted: #64748b;
+            --text: #0d0e0e;
+            /* Athar Black */
+            --danger: #ef4444;
+            --border: rgba(13, 14, 14, 0.1);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-premium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --glass-border: rgba(13, 14, 14, 0.05);
+            --success: #10b981;
+        }
+
+        [data-theme="dark"] {
+            --bg: #080808;
+            /* Deepest Charcoal */
+            --bg-glass: rgba(8, 8, 8, 0.85);
+            --card: #111212;
+            /* Surface Layer 1 */
+            --card-2: #161717;
+            /* Surface Layer 2 */
+            --accent: #ffe92c;
+            /* Circle Yellow */
+            --accent-2: #ffe92c;
+            --brand: #6366f1;
+            /* Softer Indigo for Dark Mode */
+            --brand-2: #ffe92c;
+            --muted: #a1a1aa;
+            /* Cool Grey for secondary text */
+            --text: #fcfcfc;
+            /* Pristine White for headers */
+            --danger: #ef4444;
+            --border: rgba(255, 233, 44, 0.1);
+            /* Subtle yellow border */
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+            --shadow-premium: 0 30px 60px -12px rgba(0, 0, 0, 0.9);
+            --glass-border: rgba(255, 233, 44, 0.2);
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100svh;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            font-size: 16px;
+            word-break: break-word;
+            /* Prevent overflow from long names */
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 600px) {
+            html {
+                font-size: 17px;
+                /* Improved legibility for mobile */
+            }
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100svh;
+            background:
+                radial-gradient(circle at top right, rgba(255, 233, 44, 0.02), transparent 400px),
+                var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-inner {
+            width: 100%;
+            max-width: 980px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .nav-tabs {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            background: rgba(51, 65, 85, .05);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch
+        }
+
+        .tab {
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--muted);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            white-space: nowrap;
+            border: 1px solid transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(255, 233, 44, 0.2);
+            border-color: rgba(255, 233, 44, 0.3);
+        }
+
+        .tab:not(.active):hover {
+            color: var(--text);
+            background: rgba(255, 233, 44, 0.05);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+
+        .brand-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            background: var(--accent);
+            box-shadow: 0 0 20px rgba(255, 233, 44, 0.6);
+            transform: rotate(45deg);
+        }
+
+        .brand span {
+            font-size: 18px;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--text), var(--brand));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        /* Mobile Bottom Nav */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-top: 1px solid var(--glass-border);
+            z-index: 150;
+            padding: 12px 14px 24px;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+            justify-content: space-around;
+            align-items: center
+        }
+
+        .mobile-nav .m-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mobile-nav .m-tab.active {
+            color: var(--accent);
+        }
+
+        .mobile-nav .m-tab i {
+            font-size: 20px
+        }
+
+        /* FAB */
+        .fab {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background: var(--accent);
+            color: #000;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(51, 65, 85, .4);
+            z-index: 140;
+            border: none;
+            cursor: pointer
+        }
+
+        /* Mentor Switcher */
+        .mentor-switcher {
+            position: relative;
+            display: inline-block
+        }
+
+        .mentor-header-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .mentor-header-btn:hover {
+            background: rgba(67, 56, 202, 0.08);
+            border-color: var(--border);
+        }
+
+        .mentor-header-btn::after {
+            content: "\25BC";
+            font-size: 10px;
+            color: var(--muted);
+            transition: transform 0.3s;
+        }
+
+        .mentor-header-btn.open::after {
+            transform: rotate(180deg);
+        }
+
+        /* Indicator disabled */
+        .mentor-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            min-width: 220px;
+            max-height: 320px;
+            overflow-y: auto;
+            display: none;
+            z-index: 200;
+            box-shadow: var(--shadow-premium);
+            margin-top: 8px;
+            padding: 8px;
+        }
+
+        [data-theme="dark"] .mentor-dropdown {
+            background: var(--card-2);
+            border-color: rgba(255, 233, 44, 0.1);
+        }
+
+        .mentor-dropdown .m-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            transition: background .15s
+        }
+
+        .mentor-dropdown .m-item:hover {
+            background: rgba(51, 65, 85, .1)
+        }
+
+        .mentor-dropdown .m-item.active {
+            color: var(--accent);
+            font-weight: 700
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 17px;
+            }
+
+            .navbar {
+                padding: 12px 16px;
+                min-height: 60px;
+                border-bottom-color: var(--border);
+            }
+
+            .nav-inner {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav-tabs {
+                display: none !important;
+            }
+
+            .mobile-nav {
+                display: flex;
+                padding: 10px 14px;
+                height: calc(82px + env(safe-area-inset-bottom));
+                padding-bottom: calc(12px + env(safe-area-inset-bottom));
+                backdrop-filter: blur(25px) saturate(2);
+                -webkit-backdrop-filter: blur(25px) saturate(2);
+                background: var(--bg-glass);
+                border-top: 1px solid var(--glass-border);
+            }
+
+            .mobile-nav .m-tab {
+                gap: 4px;
+                font-size: 13px;
+                font-weight: 800;
+                letter-spacing: 0.2px;
+            }
+
+            .mobile-nav .m-tab i,
+            .mobile-nav .m-tab svg {
+                width: 24px;
+                height: 24px;
+            }
+
+            .fab {
+                display: flex;
+                bottom: calc(90px + env(safe-area-inset-bottom));
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+                box-shadow: 0 8px 24px rgba(51, 65, 85, 0.3);
+            }
+
+            .container {
+                padding: 16px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                display: block;
+                /* Removed flex-centering for natural scroll */
+            }
+
+            .wrap {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .panel {
+                border-radius: 24px !important;
+                border: 1px solid var(--border);
+                box-shadow: var(--shadow);
+                width: 100% !important;
+                min-height: auto !important;
+                max-height: none;
+                /* Changed for full-page scroll */
+                overflow-y: visible;
+                /* Changed for full-page scroll */
+                overflow-x: hidden;
+            }
+
+            .header {
+                padding: 16px;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .header .actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            .header #currentCompanyTag {
+                width: 100%;
+                margin-bottom: 4px;
+                font-size: 11px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+                width: auto;
+                text-align: right;
+                font-weight: 700;
+            }
+
+            #createFeedbackBtn {
+                display: none;
+            }
+
+            .brand span {
+                font-size: 18px;
+            }
+
+            .brand-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .content {
+                padding: 20px;
+                padding-bottom: 160px;
+                /* Ensures content clears the mobile bottom nav and FAB */
+                width: 100%;
+            }
+
+            .row {
+                gap: 16px;
+                flex-direction: column;
+            }
+
+            .col {
+                min-width: 100%;
+                width: 100%;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+
+            .stat .v {
+                font-size: 20px;
+                line-height: 1.3;
+            }
+
+            .stat .l {
+                font-size: 13px;
+                letter-spacing: 0.5px;
+                font-weight: 700;
+            }
+
+            .stat {
+                padding: 16px 14px;
+                gap: 8px;
+                border-radius: 18px;
+                background: var(--card-2);
+            }
+
+            .badge {
+                padding: 8px 14px;
+                font-size: 14px;
+                font-weight: 800;
+            }
+
+            .desc {
+                padding: 24px 20px;
+                margin-top: 16px;
+                width: 100%;
+                display: block;
+            }
+
+            .desc .v {
+                font-size: 15px;
+                line-height: 1.8;
+                color: var(--text);
+                display: block;
+            }
+
+            label {
+                font-size: 13px;
+                margin-bottom: 8px;
+                font-weight: 600;
+            }
+
+            .form-group {
+                margin-bottom: 14px;
+            }
+
+            .form-group label {
+                margin-bottom: 4px;
+                font-size: 14px;
+            }
+
+            .form-group .q-desc {
+                margin-bottom: 8px;
+                font-size: 11px;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
+                padding: 14px 16px;
+                border-radius: 14px;
+                width: 100%;
+                background: var(--card-2);
+                border: 1px solid var(--border);
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            textarea {
+                min-height: 120px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 18px;
+                font-size: 17px;
+                min-height: 58px;
+                display: flex;
+                border-radius: 16px;
+                font-weight: 800;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            .hero {
+                padding: 24px 20px;
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .hero h2 {
+                font-size: 22px;
+            }
+
+            .hero .tag {
+                font-size: 15px;
+                opacity: 0.8;
+            }
+
+            .f-title {
+                font-size: 20px;
+                font-weight: 800;
+            }
+
+            .f-session {
+                padding: 16px;
+                gap: 8px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .f-session-num {
+                font-size: 11px;
+            }
+
+            .f-session-score {
+                font-size: 16px;
+                font-weight: 800;
+            }
+
+            .f-session-actions {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+
+            .footer {
+                padding: 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .footer .btn {
+                width: 100%;
+                margin: 0;
+                min-height: 54px;
+            }
+
+            .modal-content {
+                border-radius: 28px 28px 0 0;
+            }
+
+            .modal-header {
+                padding: 20px;
+            }
+
+            .modal-title {
+                font-size: 22px;
+                font-weight: 800;
+            }
+
+            .modal-close {
+                width: 44px;
+                height: 44px;
+                font-size: 24px;
+            }
+        }
+
+        /* Admin UI Extensions */
+        .admin-btn-link {
+            display: block;
+            margin-top: 16px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .admin-btn-link:hover {
+            color: var(--accent);
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .admin-stat-card {
+            background: var(--card-2);
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .admin-stat-card .label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .admin-stat-card .value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .admin-table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--card);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .admin-table th {
+            background: var(--card-2);
+            padding: 16px;
+            font-weight: 800;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-table tr:hover {
+            background: rgba(67, 56, 202, 0.02);
+        }
+
+        .admin-action-btn {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--card-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .admin-action-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .settings-lock {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px dashed var(--danger);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .settings-lock input {
+            max-width: 250px;
+            margin: 12px auto;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        /* Expandable Table Row Styles */
+        .admin-table tr.mentor-row {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .admin-table tr.mentor-row:hover {
+            background: rgba(67, 56, 202, 0.05);
+        }
+
+        .admin-table tr.mentor-row td:first-child {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chevron-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s;
+            color: var(--muted);
+        }
+
+        .mentor-row.expanded .chevron-icon {
+            transform: rotate(90deg);
+        }
+
+        .details-row {
+            display: none;
+            background: rgba(243, 244, 246, 0.5);
+        }
+
+        .details-row.show {
+            display: table-row;
+        }
+
+        .details-container {
+            padding: 0 16px 16px 16px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .sub-table {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .sub-table th {
+            text-align: right;
+            padding: 10px 16px;
+            background: var(--card-2);
+            color: var(--muted);
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sub-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sub-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Round Cards UI */
+        .round-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .round-card {
+            background: var(--card-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .round-card:hover {
+            border-color: var(--accent);
+            background: rgba(67, 56, 202, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .round-card.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.2);
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 900px
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow-premium);
+            position: relative;
+            overflow: visible;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        [data-theme="dark"] .panel {
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: linear-gradient(to bottom right, var(--card), var(--card-2));
+        }
+
+        .header {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02), transparent);
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        [data-theme="dark"] .header {
+            background: linear-gradient(to bottom, rgba(255, 233, 44, 0.02), transparent);
+        }
+
+        .select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent);
+            clip-path: polygon(100% 0%, 0% 0%, 50% 100%);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+
+        [dir="rtl"] .select-wrapper::after {
+            right: auto;
+            left: 24px;
+        }
+
+        .select-wrapper:hover::after {
+            opacity: 1;
+            transform: translateY(-20%);
+        }
+
+        .select-wrapper select {
+            font-family: inherit;
+            width: 100%;
+            padding: 14px 48px !important;
+            /* Safe space on both sides for icons */
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        [data-theme="dark"] .select-wrapper select {
+            background: var(--card-2);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Large version for main dashboard */
+        .select-wrapper.large select {
+            font-size: 24px;
+            font-weight: 700;
+            padding: 20px 60px !important;
+            border-width: 2px;
+            border-radius: 16px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 14px;
+            }
+
+            .header .actions {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+                border: none;
+                padding: 0;
+            }
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: .2px;
+            color: var(--accent)
+        }
+
+        .content {
+            padding: 24px;
+            padding-bottom: 100px;
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 16px;
+                padding-bottom: 160px;
+            }
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .col {
+            flex: 1;
+            min-width: 180px;
+            /* Reduced to fit better on small devices */
+        }
+
+        @media (max-width: 480px) {
+            .col {
+                min-width: 100%;
+            }
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 800;
+            opacity: 0.9;
+        }
+
+        input,
+        select {
+            width: 100%;
+            background: var(--card-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            padding: 12px 14px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color .15s, box-shadow .15s;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(51, 65, 85, .15)
+        }
+
+        .btn {
+            background: rgba(67, 71, 202, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: #0d0e0e;
+            border: 1px solid var(--accent);
+            border-radius: 14px;
+            padding: 12px 28px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .btn {
+            background: rgba(255, 233, 44, 0.05);
+            color: #ffffff;
+            border-color: rgba(255, 233, 44, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 8px 30px rgba(67, 71, 202, 0.3);
+        }
+
+        [data-theme="dark"] .btn:hover {
+            background: var(--accent);
+            color: #0d0e0e;
+            border-color: var(--accent);
+            box-shadow: 0 8px 30px rgba(255, 233, 44, 0.25);
+        }
+
+        .btn.secondary {
+            background: rgba(100, 116, 139, 0.05);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        .btn.secondary:hover {
+            background: var(--card-2);
+            color: var(--text);
+            border-color: var(--text);
+        }
+
+        [data-theme="dark"] .btn.secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--muted);
+        }
+
+        [data-theme="dark"] .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+            box-shadow: none;
+        }
+
+        .btn.ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .card {
+            margin-top: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .card {
+            background: var(--card-2);
+            border-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-premium);
+            border-color: var(--accent);
+        }
+
+        .card .l {
+            font-size: 13px;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .card .v {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        .stat {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            opacity: 1;
+        }
+
+        .stat:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-premium);
+            border-color: var(--accent);
+        }
+
+        .stat .l {
+            font-size: 13px;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1.2px
+        }
+
+        .stat .v {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--text);
+            letter-spacing: -1px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 900;
+            background: rgba(67, 71, 202, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        [data-theme="dark"] .badge {
+            background: rgba(255, 233, 44, 0.1);
+            color: var(--accent);
+            border-color: rgba(255, 233, 44, 0.5);
+        }
+
+        .badge.s-idea {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .badge.s-mvp {
+            background: rgba(20, 184, 166, 0.1);
+            color: #14b8a6;
+            border-color: rgba(20, 184, 166, 0.2);
+        }
+
+        .badge.s-seed {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+
+        .badge.s-growth {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .badge.s-scale {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .meter {
+            width: 100%;
+            height: 6px;
+            background: rgba(51, 65, 85, .05);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 1px solid rgba(51, 65, 85, .1)
+        }
+
+        .meter-v {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 3px
+        }
+
+        .desc {
+            margin-top: 16px;
+            line-height: 1.7;
+            font-size: 15px;
+            color: var(--text);
+            background: rgba(51, 65, 85, .01);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            white-space: pre-wrap
+        }
+
+        .error {
+            background: rgba(255, 68, 68, .1);
+            color: #ff9999;
+            border: 1px solid rgba(255, 68, 68, .3);
+            padding: 10px 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: none
+        }
+
+        .footer {
+            padding: 16px 22px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background: rgba(51, 65, 85, .02);
+            flex-wrap: wrap
+        }
+
+        @media (max-width: 480px) {
+            .footer {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 14px;
+            }
+
+            .footer .btn {
+                width: 100%;
+            }
+        }
+
+        .tag {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 700;
+            opacity: .8
+        }
+
+        .hero {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(51, 65, 85, .02);
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .hero h2 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text)
+        }
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            animation: fadeIn .3s ease
+        }
+
+        .loading .box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            font-weight: 700;
+            color: var(--text);
+            box-shadow: var(--shadow)
+        }
+
+        .spin {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 3px solid rgba(51, 65, 85, 0.1);
+            border-top-color: var(--accent);
+            animation: sp 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite
+        }
+
+        @keyframes sp {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            display: none;
+            background: var(--card);
+            color: var(--text);
+            padding: 16px 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-premium);
+            z-index: 110;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 13px;
+            border: 1px solid var(--accent);
+            animation: toastIn .3s ease;
+        }
+
+        [data-theme="dark"] .toast {
+            background: var(--card-2);
+            border-color: rgba(255, 233, 44, 0.3);
+        }
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @media (max-width: 600px) {
+            .toast {
+                left: 16px;
+                right: 16px;
+                bottom: 80px;
+                text-align: center;
+            }
+        }
+
+        .skeleton {
+            position: relative;
+            color: transparent !important
+        }
+
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, .05), transparent);
+            animation: sh 1.5s infinite
+        }
+
+        @keyframes sh {
+            0% {
+                transform: translateX(-100%)
+            }
+
+            100% {
+                transform: translateX(100%)
+            }
+        }
+
+        html[dir="rtl"] .header,
+        html[dir="rtl"] .hero,
+        html[dir="rtl"].pair,
+        html[dir="rtl"] .nav-inner {
+            flex-direction: row-reverse
+        }
+
+        @media (max-width: 600px) {
+
+            html[dir="rtl"] .header,
+            html[dir="rtl"] .hero,
+            html[dir="rtl"] .nav-inner {
+                flex-direction: column;
+            }
+        }
+
+        html[dir="rtl"] .stat {
+            text-align: right
+        }
+
+        html[dir="rtl"] .desc {
+            text-align: right
+        }
+
+        .f-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow);
+        }
+
+        [data-theme="dark"] .f-card {
+            background: var(--card);
+            border-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .f-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-premium);
+            border-color: var(--accent);
+        }
+
+        .f-header {
+            padding: 20px 24px;
+            background: linear-gradient(to right, rgba(79, 70, 229, 0.05), transparent);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .f-header:hover {
+            background: rgba(79, 70, 229, 0.08);
+        }
+
+        .f-header .toggle-icon {
+            transition: transform 0.3s;
+            font-size: 18px;
+            opacity: 0.5;
+        }
+
+        .f-card.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 480px) {
+            .f-header {
+                flex-direction: row;
+                /* Keep row for avg score */
+                align-items: center;
+                padding: 16px;
+            }
+        }
+
+        .f-title {
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .f-sessions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .f-card.expanded .f-sessions {
+            max-height: 5000px;
+            /* High enough to show all */
+        }
+
+        @media (max-width: 480px) {
+            .f-sessions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .f-session {
+            background: var(--card);
+            padding: 0;
+            /* Changed to handle internal headers */
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .f-session {
+            background: var(--card-2);
+            border-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .f-session:hover {
+            background: rgba(255, 233, 44, 0.02);
+            border-color: var(--accent);
+        }
+
+        .f-session-header {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(51, 65, 85, 0.01);
+            transition: background 0.2s;
+        }
+
+        .f-session:hover .f-session-header {
+            background: rgba(79, 70, 229, 0.04);
+        }
+
+        .f-session-details {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .f-session.expanded .f-session-details {
+            padding: 12px 24px 24px;
+            max-height: 2000px;
+            opacity: 1;
+        }
+
+        .f-session-num {
+            font-size: 13px;
+            color: var(--text);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .f-session-num::before {
+            content: '▶';
+            font-size: 10px;
+            transition: transform 0.3s;
+            color: var(--accent);
+        }
+
+        .f-session.expanded .f-session-num::before {
+            transform: rotate(90deg);
+        }
+
+        .f-session-score {
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .star-large {
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .avg-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(251, 191, 36, 0.08);
+            padding: 8px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            margin-left: auto;
+        }
+
+        .f-session-actions {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--muted);
+            white-space: pre-wrap;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            transition: max-height 0.3s ease;
+        }
+
+        .f-session-actions.expanded {
+            display: block;
+            -webkit-line-clamp: unset;
+            max-height: 2000px;
+        }
+
+        .show-more-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            padding: 0;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .show-more-btn:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .f-session-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .f-section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--muted);
+            opacity: 0.8;
+            margin-bottom: 2px;
+        }
+
+        .f-session-file {
+            font-size: 12px;
+            color: #fff;
+            text-decoration: none;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-radius: 12px;
+            margin-top: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        }
+
+        .f-session-file:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .f-session-file.disabled {
+            background: rgba(255, 255, 255, .05);
+            border-color: var(--border);
+            color: var(--muted);
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .f-empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+            font-style: italic
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+            background: var(--card-2);
+            padding: 24px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] .form-group {
+            background: rgba(255, 255, 255, 0.01);
+            border-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .form-group:focus-within {
+            background: var(--card);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            display: block;
+            font-size: 24px;
+            /* Double the size of description */
+            font-weight: 800;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .form-group .q-desc {
+            font-size: 12px;
+            color: #000000 !important;
+            /* Pure Black as requested */
+            margin-top: 4px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 16px;
+            right: 24px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            background: var(--card-2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            pointer-events: none;
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text);
+            padding: 16px;
+            outline: none;
+            font-size: 15px;
+            transition: all .3s;
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+            background: var(--card);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.05);
+        }
+
+        .score-stars {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px;
+            flex-wrap: wrap
+        }
+
+        .star {
+            font-size: 32px;
+            cursor: pointer;
+            color: var(--muted);
+            transition: all .15s;
+            user-select: none;
+            padding: 4px
+        }
+
+        .star:hover,
+        .star.active {
+            color: var(--accent);
+            transform: scale(1.15)
+        }
+
+        .score-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text);
+            margin-left: 12px;
+            min-width: 36px
+        }
+
+        .mentor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(51, 65, 85, .1);
+            padding: 6px 14px;
+            border-radius: 99px;
+            border: 1px solid rgba(51, 65, 85, .2);
+            margin-top: 4px
+        }
+
+        .mentor-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent)
+        }
+
+        .mentor-badge .name {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 14px
+        }
+
+        .search-select {
+            position: relative
+        }
+
+        .search-select input {
+            margin-bottom: 4px;
+            cursor: pointer;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            max-height: 280px;
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+            box-shadow: var(--shadow-premium);
+            animation: fadeIn .3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(25px);
+            margin-top: 8px;
+            padding: 8px;
+        }
+
+        #loginPanel,
+        #loginPanel .content {
+            overflow: visible !important;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .search-item {
+            padding: 14px 18px;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 12px;
+            transition: all .2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text);
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .search-item:hover {
+            background: var(--accent);
+            color: #0d0e0e;
+            transform: scale(1.02) translateX(5px);
+        }
+
+        .search-item.assigned {
+            background: rgba(51, 65, 85, .04)
+        }
+
+        .search-item .a-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            background: var(--accent);
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800
+        }
+
+        /* Tab Transitions */
+        .tab-content {
+            animation: slideIn .3s ease-out
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(10px);
+            z-index: 200;
+            padding: 20px
+        }
+
+        @media (max-width: 600px) {
+            .modal {
+                padding: 0;
+                align-items: flex-end;
+            }
+        }
+
+        .modal-content {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-premium);
+            position: relative;
+            animation: modalIn .6s cubic-bezier(0.16, 1, 0.3, 1)
+        }
+
+        [data-theme="dark"] .modal-content {
+            background: var(--card);
+            border-color: rgba(255, 233, 44, 0.15);
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .modal-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                border-radius: 32px 32px 0 0;
+                border-bottom: none;
+                animation: sheetIn 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+                max-height: 94vh;
+            }
+
+            @keyframes sheetIn {
+                from {
+                    transform: translateY(100%);
+                }
+
+                to {
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        .modal-header {
+            padding: 28px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-glass);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-title {
+            font-weight: 800;
+            color: var(--text);
+            font-size: 24px;
+            letter-spacing: -0.8px;
+        }
+
+        .modal-body {
+            padding: 32px;
+            line-height: 1.6;
+            font-size: 15px;
+            color: var(--text)
+        }
+
+        .modal-footer {
+            padding: 24px 32px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background: var(--bg-glass);
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-close {
+            background: var(--accent);
+            border: none;
+            color: #0d0e0e;
+            font-size: 24px;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255, 233, 44, 0.3);
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        @media (max-width: 480px) {
+            .modal-footer {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .modal-footer .btn {
+                width: 100%;
+            }
+        }
+
+        .modal-close {
+            background: rgba(51, 65, 85, .1);
+            border: none;
+            color: var(--accent);
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
+            color: #000
+        }
+
+        @keyframes errorGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(239, 68, 68, 0.2);
+                border-color: var(--danger);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+                border-color: #f87171;
+            }
+
+            100% {
+                box-shadow: 0 0 5px rgba(239, 68, 68, 0.2);
+                border-color: var(--danger);
+            }
+        }
+
+        .error-glow {
+            animation: errorGlow 1.5s ease-in-out infinite;
+            border-width: 2px !important;
+            scroll-margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app" id="app">
+        <div class="navbar">
+            <div class="nav-inner">
+                <div class="brand">
+                    <div class="brand-dot"></div><span data-i18n="brand">Mentor Portal</span>
+                </div>
+                <div class="nav-tabs" id="mainTabs">
+                    <div class="tab active" data-target="appPanel" data-i18n="tab_info">Info</div>
+                    <div class="tab" data-target="followupPanel" data-i18n="tab_feedbacks">Feedbacks</div>
+                </div>
+                <div class="actions">
+                    <button id="langToggle" class="btn ghost" aria-label="Toggle language">AR</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="wrap">
+                <div class="panel" id="loginPanel">
+                    <div class="hero">
+                        <h2 data-i18n="signin_title">Sign In</h2><span class="tag" data-i18n="signin_tag">Access your
+                            assigned companies</span>
+                    </div>
+                    <div class="content">
+                        <div id="loginError" class="error" role="alert" aria-live="assertive"></div>
+                        <div class="login-inputs">
+                          <div class="form-group">
+                            <label data-i18n="label_round">Select Round</label>
+                            <input type="hidden" id="roundId">
+                            <div id="roundCards" class="round-cards-container">
+                                <div style="color:var(--muted); font-size:13px; grid-column: 1/-1" data-i18n="loading_rounds">Loading rounds...</div>
+                            </div>
+                        </div>      </div>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label_mentor">Select Mentor Name</label>
+                                <input type="hidden" id="mentorName">
+                                <div id="mentorCards" class="round-cards-container">
+                                    <div style="color:var(--muted); font-size:13px; grid-column: 1/-1" data-i18n="select_round_first">Select round first</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pin" data-i18n="label_pin">PIN Code (If applicable)</label>
+                                <input type="password" id="pin" placeholder="••••" dir="ltr">
+                                <button class="btn" id="loginBtn" style="margin-top: 20px;" data-i18n="btn_signin">Sign
+                                    In</button>
+                                <div class="admin-btn-link" onclick="openAdminLoginModal()">تسجيل دخول الإدارة \ المطور
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel tab-content" id="appPanel" style="display:none;">
+                    <div class="header">
+                        <div class="mentor-switcher">
+                            <div class="mentor-header-btn" id="mentorHeaderTrigger">
+                                <h1 id="mentorHeader" dir="auto" style="display:inline; margin:0"
+                                    data-i18n="mentor_title">Mentor</h1>
+                            </div>
+                            <div id="mentorDropdown" class="mentor-dropdown"></div>
+                        </div>
+                        <div class="actions">
+                            <span class="tag" id="currentCompanyTag"></span>
+                            <button onclick="openMentorPinModal()" class="btn secondary" style="padding: 10px;" title="تعيين رمز الدخول">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            </button>
+                            <button id="refreshBtn" class="btn secondary" data-i18n="btn_refresh">Refresh</button>
+                            <button id="logoutBtn" class="btn ghost" data-i18n="btn_logout">Logout</button>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row selection-highlight">
+                            <div class="col" style="padding: 10px;">
+                                <label for="companySelect" data-i18n="label_company"
+                                    style="font-size: 16px; font-weight: 800; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: block; letter-spacing: 1px;">Company</label>
+                                <div class="select-wrapper large">
+                                    <select id="companySelect" dir="auto"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="l" data-i18n="label_start_date">Start Date</div>
+                                <div class="v" id="startV" dir="auto">—</div>
+                            </div>
+                            <div class="stat">
+                                <div class="l" data-i18n="label_stage">Stage</div>
+                                <div class="badge" id="stageV" dir="auto">—</div>
+                            </div>
+                            <div class="stat">
+                                <div class="l" data-i18n="label_traction">Traction</div>
+                                <div class="badge" id="tractV" dir="auto">—</div>
+                                <div class="meter" id="tractMeter" style="display:none">
+                                    <div class="meter-v" id="tractFill"></div>
+                                </div>
+                            </div>
+                            <div class="stat">
+                                <div class="l" data-i18n="label_revenue">Annual Revenue</div>
+                                <div class="v" id="revV" dir="auto">—</div>
+                            </div>
+                        </div>
+                        <div id="diagnoseBtnContainer"
+                            style="margin-bottom: 24px; display: none; gap: 12px; width: 100%; justify-content: stretch;">
+                            <style>
+                                .action-btn-luminous {
+                                    flex: 1;
+                                    padding: 22px 10px;
+                                    /* Chunkier height */
+                                    font-size: 17px;
+                                    /* More readable large text */
+                                    border-radius: 20px;
+                                    display: flex;
+                                    flex-direction: column;
+                                    /* Stacked icon/text for better impact on mobile */
+                                    gap: 8px;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background: rgba(255, 255, 255, 0.03);
+                                    color: var(--text);
+                                    font-weight: 800;
+                                    border: 1px solid rgba(26, 39, 201, 0.15);
+                                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                                    cursor: pointer;
+                                    backdrop-filter: blur(12px);
+                                    text-align: center;
+                                }
+
+                                .action-btn-luminous:hover {
+                                    background: rgba(255, 255, 255, 0.06);
+                                    border-color: #1a27c9;
+                                    box-shadow: 0 12px 30px rgba(26, 39, 201, 0.25);
+                                    transform: translateY(-4px);
+                                }
+
+                                @media (max-width: 480px) {
+                                    .action-btn-luminous {
+                                        padding: 18px 5px;
+                                        font-size: 13px;
+                                        border-radius: 16px;
+                                    }
+                                }
+
+                                .action-btn-luminous svg {
+                                    color: #1a27c9;
+                                    /* Brand Blue Icons */
+                                }
+                            </style>
+                            <button id="infoCreateFeedbackBtn" class="action-btn-luminous">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <path d="M16 13H8"></path>
+                                    <path d="M16 17H8"></path>
+                                    <path d="M10 9H8"></path>
+                                    <circle cx="18" cy="18" r="4" fill="var(--bg-card)" stroke-width="2"></circle>
+                                    <path d="M18 16v2l2 1"></path>
+                                </svg>
+                                <span data-i18n="btn_create_feedback">Create Feedback</span>
+                            </button>
+                            <button id="diagnoseBtn" class="action-btn-luminous">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3">
+                                    </path>
+                                    <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path>
+                                    <circle cx="20" cy="10" r="2"></circle>
+                                </svg>
+                                <span data-i18n="modal_diagnosing_title">Diagnosing tool</span>
+                            </button>
+                        </div>
+                        <div class="card desc">
+                            <div class="l" data-i18n="label_description">Description</div>
+                            <div class="v" id="descV" dir="auto">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel tab-content" id="followupPanel" style="display:none;">
+                    <div class="header">
+                        <h1 data-i18n="followup_title">Mentor Action & Feedbacks</h1>
+                        <div class="actions">
+                            <button id="createFeedbackBtn" class="btn" data-i18n="btn_create_feedback">Create
+                                Feedback</button>
+                            <button id="refreshFollowupBtn" class="btn secondary"
+                                data-i18n="btn_refresh">Refresh</button>
+                            <button id="logoutBtnFollowup" class="btn ghost" data-i18n="btn_logout">Logout</button>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="row" style="margin-bottom:20px; align-items: flex-end;">
+                            <div class="col">
+                                <label for="followupFilter" data-i18n="label_filter_company">Filter by Company</label>
+                                <input id="followupFilter" placeholder="Search company name..." dir="auto">
+                            </div>
+                            <div class="col" style="flex:0 0 auto; min-width: auto;">
+                                <label data-i18n="label_filter">Filter</label>
+                                <div
+                                    style="display:flex; gap:4px; background: rgba(255,204,0,0.05); padding: 4px; border-radius: 12px; border: 1px solid var(--border);">
+                                    <button id="filterAllBtn" class="btn secondary"
+                                        style="padding: 8px 12px; font-size:11px; min-height: 36px;"
+                                        data-i18n="btn_all">All</button>
+                                    <button id="filterAssignedBtn" class="btn"
+                                        style="padding: 8px 12px; font-size:11px; min-height: 36px;"
+                                        data-i18n="btn_minded">Minded</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="followupList" style="display:grid; gap:20px;">
+                            <!-- Data injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Panel -->
+                <div class="panel tab-content" id="adminPanel" style="display:none;">
+                    <div class="header">
+                        <h1>لوحة الإدارة \ المطور</h1>
+                        <div class="actions">
+                            <button class="btn secondary" onclick="loadAdminStats()">تحديث البيانات</button>
+                            <button class="btn ghost" onclick="handleLogout()">Logout</button>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="nav-tabs" style="display: flex; margin-bottom: 24px;">
+                            <div class="tab active" onclick="switchAdminTab('stats', this)">الإحصائيات</div>
+                            <div class="tab" onclick="switchAdminTab('management', this)">إدارة الموجهين والدورات</div>
+                            <div class="tab" onclick="switchAdminTab('settings', this)">إعدادات الربط</div>
+                        </div>
+
+                        <div id="adminStatsView">
+                            <div class="admin-stats-grid">
+                                <div class="admin-stat-card">
+                                    <div class="label">إجمالي الموجهين</div>
+                                    <div class="value" id="statTotalMentors">0</div>
+                                </div>
+                                <div class="admin-stat-card">
+                                    <div class="label">إجمالي التقارير</div>
+                                    <div class="value" id="statTotalReports">0</div>
+                                </div>
+                                <div class="admin-stat-card">
+                                    <div class="label">إجمالي التشخيصات</div>
+                                    <div class="value" id="statTotalDiagnoses">0</div>
+                                </div>
+                            </div>
+
+                            <div class="admin-table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الموجه</th>
+                                            <th>الدورات</th>
+                                            <th style="text-align:center">التقارير</th>
+                                            <th style="text-align:center">التشخيصات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminMentorsTable">
+                                        <!-- Data populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="adminManagementView" style="display:none">
+                            <h3 style="margin-bottom:16px;">إدارة الدورات</h3>
+                            <div class="admin-table-container" style="margin-bottom:32px;">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>اسم الدورة</th>
+                                            <th style="text-align:center">الحالة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminRoundsTable"></tbody>
+                                </table>
+                            </div>
+
+                            <h3 style="margin-bottom:16px;">إدارة الموجهين (الرمز السري)</h3>
+                            <div class="admin-table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>اسم الموجه</th>
+                                            <th style="text-align:center">الرمز السري (PIN)</th>
+                                            <th style="text-align:center">الإجراء</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminPinsTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="adminSettingsView" style="display:none">
+                            <div class="settings-lock" id="settingsLock">
+                                <div style="font-weight: 800; color: var(--danger)">منطقة محمية</div>
+                                <div style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">أدخل كلمة مرور
+                                    المطور للتعديل</div>
+                                <input type="password" id="devPass" class="btn secondary" placeholder="••••"
+                                    oninput="checkDevPass(this.value)">
+                            </div>
+
+                            <div id="settingsContent" style="opacity: 0.3; pointer-events: none">
+                                <div class="form-group">
+                                    <label>معرف جدول التقارير (Reports ID)</label>
+                                    <input type="text" id="adminFormId" style="font-family: monospace; font-size: 14px">
+                                </div>
+                                <div class="form-group">
+                                    <label>معرف جدول التشخيص (Diagnose ID)</label>
+                                    <input type="text" id="adminDiagId" style="font-family: monospace; font-size: 14px">
+                                </div>
+                                <div style="margin-top: 24px; display: flex; gap: 12px">
+                                    <button class="btn" onclick="saveAdminSettings()" id="saveSettingsBtn">حفظ
+                                        التغييرات</button>
+                                    <a href="#" id="linkReports" target="_blank" class="admin-action-btn">فتح جدول
+                                        التقارير</a>
+                                    <a href="#" id="linkDiag" target="_blank" class="admin-action-btn">فتح جدول
+                                        التشخيص</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile UI Elements -->
+    <div class="mobile-nav" id="mobileNav" style="display:none">
+        <div class="m-tab active" data-target="appPanel">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span data-i18n="tab_info">Info</span>
+        </div>
+        <div class="m-tab" data-target="followupPanel">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span data-i18n="tab_feedbacks">Feedbacks</span>
+        </div>
+    </div>
+    <button class="fab" id="mobileFab" style="display:none" aria-label="Create Feedback">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </button>
+
+    <div class="loading" id="loading">
+        <div class="box">
+            <div class="spin"></div><span id="loadingText" data-i18n="loading">Loading</span>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <!-- Feedback Form Modal -->
+    <div class="modal" id="feedbackModal">
+        <div class="modal-content" style="max-width: 800px">
+            <div class="modal-header">
+                <div class="modal-title" data-i18n="modal_feedback_title">Create New Feedback</div>
+                <button class="modal-close" onclick="closeFeedbackModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="feedbackForm">
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col" style="flex: 1.5">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label data-i18n="label_mentor_name">Mentor Name</label>
+                                <div class="mentor-badge" style="margin: 0; padding: 8px 16px; width: 100%;">
+                                    <div class="dot"></div>
+                                    <div class="name" id="fMentorNameDisplay" style="font-size: 15px;"
+                                        data-i18n="loading">Loading...</div>
+                                </div>
+                                <input type="hidden" id="fMentorName">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label for="fRound" data-i18n="label_round_f">Round</label>
+                                <input id="fRound" value="Round_01" readonly dir="auto"
+                                    style="padding: 12px 16px; font-size: 15px; font-weight: 700; background: rgba(255,204,0,0.05);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label for="fCompanyName" data-i18n="label_company_name">Company Name</label>
+                                <div class="search-select">
+                                    <input id="fCompanyName" placeholder="Search and select company..." dir="auto"
+                                        autocomplete="off" style="padding: 14px 18px; font-size: 16px;"
+                                        data-i18n-placeholder="placeholder_company">
+                                    <div id="companyResults" class="search-results"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" style="max-width: 160px;">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label for="fDay" data-i18n="label_day">Day Of Session</label>
+                                <div class="select-wrapper">
+                                    <select id="fDay" dir="auto">
+                                        <option value="" data-i18n="select_day">Select Day</option>
+                                        <option value="Day_01">Day_01</option>
+                                        <option value="Day_02">Day_02</option>
+                                        <option value="Day_03">Day_03</option>
+                                        <option value="Day_04">Day_04</option>
+                                        <option value="Day_05">Day_05</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fStatus" data-i18n="label_status">Current Status</label>
+                        <div class="q-desc" data-i18n="desc_status">يرجى توضيح المرحلة التي وصلت إليها الشركة حاليًا وأي
+                            جوانب تحتاج إلى دعم أو تطوير</div>
+                        <textarea id="fStatus" dir="auto" maxlength="1000" oninput="updateCharCount(this)"
+                            placeholder="Enter description..." data-i18n-placeholder="placeholder_desc"></textarea>
+                        <div class="char-counter"><span class="count">0</span> / 1000</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fAchievements" data-i18n="label_achievements">Achievements Since The Last
+                            Session</label>
+                        <div class="q-desc" data-i18n="desc_achievements">يرجى توضيح الخطوات أو المهام التي تم الاتفاق
+                            عليها في الجلسة السابقة، وما الذي تم تنفيذه منها بالفعل. في حال وجود مهام لم يتم تنفيذها،
+                            يرجى ذكر الأسباب أو التحديات التي منعت تنفيذها</div>
+                        <textarea id="fAchievements" dir="auto" maxlength="1000" oninput="updateCharCount(this)"
+                            placeholder="Enter achievements..."
+                            data-i18n-placeholder="placeholder_achievements"></textarea>
+                        <div class="char-counter"><span class="count">0</span> / 1000</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fActionSteps" data-i18n="label_action_steps">Action Steps To Be Completed Before The
+                            Next Session</label>
+                        <div class="q-desc" data-i18n="desc_action_steps">بناءً على تقييم وضع الشركة الحالي ونتائج
+                            الجلسة، يرجى تحديد الخطوات العملية التي ينبغي على الشركة تنفيذها قبل الجلسة القادمة، مع
+                            التركيز على الإجراءات القابلة للتنفيذ التي ستساهم في تقدم الشركة.</div>
+                        <textarea id="fActionSteps" dir="auto" maxlength="1000" oninput="updateCharCount(this)"
+                            placeholder="Enter next steps..." data-i18n-placeholder="placeholder_next_steps"></textarea>
+                        <div class="char-counter"><span class="count">0</span> / 1000</div>
+                    </div>
+
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_prod_score">تقييم المنتج</label>
+                                <div class="score-stars f-stars" data-field="fProdScore">
+                                    <span class="star" data-value="1">★</span>
+                                    <span class="star" data-value="2">★</span>
+                                    <span class="star" data-value="3">★</span>
+                                    <span class="star" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="fProdScore" value="0.0">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_ops_score">تقييم العمليات</label>
+                                <div class="score-stars f-stars" data-field="fOpsScore">
+                                    <span class="star" data-value="1">★</span>
+                                    <span class="star" data-value="2">★</span>
+                                    <span class="star" data-value="3">★</span>
+                                    <span class="star" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="fOpsScore" value="0.0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_sales_score">تقييم المبيعات</label>
+                                <div class="score-stars f-stars" data-field="fSalesScore">
+                                    <span class="star" data-value="1">★</span>
+                                    <span class="star" data-value="2">★</span>
+                                    <span class="star" data-value="3">★</span>
+                                    <span class="star" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="fSalesScore" value="0.0">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_mkt_score">تقييم التسويق</label>
+                                <div class="score-stars f-stars" data-field="fMktScore">
+                                    <span class="star" data-value="1">★</span>
+                                    <span class="star" data-value="2">★</span>
+                                    <span class="star" data-value="3">★</span>
+                                    <span class="star" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="fMktScore" value="0.0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_fin_score">تقييم الماليات</label>
+                                <div class="score-stars f-stars" data-field="fFinScore">
+                                    <span class="star" data-value="1">★</span>
+                                    <span class="star" data-value="2">★</span>
+                                    <span class="star" data-value="3">★</span>
+                                    <span class="star" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="fFinScore" value="0.0">
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label data-i18n="label_mentor_score">Mentor Score (0 - 5)</label>
+                        <div class="q-desc" data-i18n="desc_mentor_score">ايه هو تقييمك للشركه بشكل عام (حيث 5 هو الاعلي
+                            تقييما)</div>
+                        <div class="score-stars" id="starRating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                            <div class="score-value" id="fScoreValue">0.0</div>
+                        </div>
+                        <input type="hidden" id="fScore" value="0.0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn secondary" onclick="closeFeedbackModal()"
+                    data-i18n="btn_cancel">Cancel</button>
+                <button type="submit" form="feedbackForm" class="btn" id="fSubmitBtn" data-i18n="btn_submit">Submit
+                    Feedback</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Followup Modal -->
+    <div class="modal" id="editFollowupModal">
+        <div class="modal-content" style="max-width: 800px">
+            <div class="modal-header">
+                <div class="modal-title" data-i18n="modal_session_title">Edit Session</div>
+                <button class="modal-close" onclick="closeEditFollowupModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="editFollowupForm">
+                    <input type="hidden" id="efCompany">
+                    <input type="hidden" id="efSessionNum">
+
+                    <div class="form-group">
+                        <label for="efStatus" data-i18n="label_status">Current Status</label>
+                        <div class="q-desc" data-i18n="desc_status">يرجى توضيح المرحلة التي وصلت إليها الشركة حاليًا وأي
+                            جوانب تحتاج إلى دعم أو تطوير</div>
+                        <textarea id="efStatus" dir="auto" maxlength="1000" oninput="updateCharCount(this)"></textarea>
+                        <div class="char-counter"><span class="count">0</span> / 1000</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="efAchievements" data-i18n="label_achievements">Achievements Since The Last
+                            Session</label>
+                        <div class="q-desc" data-i18n="desc_achievements">يرجى توضيح الخطوات أو المهام التي تم الاتفاق
+                            عليها في الجلسة السابقة...</div>
+                        <textarea id="efAchievements" dir="auto" maxlength="1000"
+                            oninput="updateCharCount(this)"></textarea>
+                        <div class="char-counter"><span class="count">0</span> / 1000</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="efActions" data-i18n="label_action_steps">Action Steps To Be Completed Before The
+                            Next Session</label>
+                        <textarea id="efActions" dir="auto" maxlength="1000" oninput="updateCharCount(this)"></textarea>
+                        <div class="char-counter"><span class="count">0</span> / 1000</div>
+                    </div>
+
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_prod_score">تقييم المنتج</label>
+                                <div class="score-stars ef-stars-group" data-field="efProdScore">
+                                    <span class="star ef-star" data-value="1">★</span>
+                                    <span class="star ef-star" data-value="2">★</span>
+                                    <span class="star ef-star" data-value="3">★</span>
+                                    <span class="star ef-star" data-value="4">★</span>
+                                    <span class="star ef-star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="efProdScore" value="0.0">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_ops_score">تقييم العمليات</label>
+                                <div class="score-stars ef-stars-group" data-field="efOpsScore">
+                                    <span class="star ef-star" data-value="1">★</span>
+                                    <span class="star ef-star" data-value="2">★</span>
+                                    <span class="star ef-star" data-value="3">★</span>
+                                    <span class="star ef-star" data-value="4">★</span>
+                                    <span class="star ef-star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="efOpsScore" value="0.0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_sales_score">تقييم المبيعات</label>
+                                <div class="score-stars ef-stars-group" data-field="efSalesScore">
+                                    <span class="star ef-star" data-value="1">★</span>
+                                    <span class="star ef-star" data-value="2">★</span>
+                                    <span class="star ef-star" data-value="3">★</span>
+                                    <span class="star ef-star" data-value="4">★</span>
+                                    <span class="star ef-star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="efSalesScore" value="0.0">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_mkt_score">تقييم التسويق</label>
+                                <div class="score-stars ef-stars-group" data-field="efMktScore">
+                                    <span class="star ef-star" data-value="1">★</span>
+                                    <span class="star ef-star" data-value="2">★</span>
+                                    <span class="star ef-star" data-value="3">★</span>
+                                    <span class="star ef-star" data-value="4">★</span>
+                                    <span class="star ef-star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="efMktScore" value="0.0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label data-i18n="label_fin_score">تقييم الماليات</label>
+                                <div class="score-stars ef-stars-group" data-field="efFinScore">
+                                    <span class="star ef-star" data-value="1">★</span>
+                                    <span class="star ef-star" data-value="2">★</span>
+                                    <span class="star ef-star" data-value="3">★</span>
+                                    <span class="star ef-star" data-value="4">★</span>
+                                    <span class="star ef-star" data-value="5">★</span>
+                                    <div class="score-value">0.0</div>
+                                </div>
+                                <input type="hidden" id="efFinScore" value="0.0">
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="label_mentor_score">Mentor Score (0 - 5)</label>
+                        <div class="score-stars" id="efStarRating">
+                            <span class="star ef-star" data-value="1">★</span>
+                            <span class="star ef-star" data-value="2">★</span>
+                            <span class="star ef-star" data-value="3">★</span>
+                            <span class="star ef-star" data-value="4">★</span>
+                            <span class="star ef-star" data-value="5">★</span>
+                            <div class="score-value" id="efScoreValue">0.0</div>
+                        </div>
+                        <input type="hidden" id="efScore" value="0.0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn secondary" onclick="closeEditFollowupModal()"
+                    data-i18n="btn_cancel">Cancel</button>
+                <button type="submit" form="editFollowupForm" class="btn" id="efSubmitBtn" data-i18n="btn_submit">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diagnosing Tool Modal -->
+    <div class="modal" id="diagnoseModal">
+        <div class="modal-content" style="max-width: 800px">
+            <div class="modal-header">
+                <div class="modal-title" data-i18n="modal_diagnosing_title">Diagnosing Tool</div>
+                <button class="modal-close" onclick="closeDiagnoseModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="diagnoseForm">
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col" style="flex: 1.5">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label data-i18n="label_mentor_name">Mentor Name</label>
+                                <div class="mentor-badge" style="margin: 0; padding: 8px 16px; width: 100%;">
+                                    <div class="dot"></div>
+                                    <div class="name" id="dMentorNameDisplay" style="font-size: 15px;"
+                                        data-i18n="loading">Loading...</div>
+                                </div>
+                                <input type="hidden" id="dMentorName">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column C Fields: Combined -->
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label for="dCompanyName" data-i18n="label_company_name">Company Name</label>
+                                <input id="dCompanyName" readonly dir="auto"
+                                    style="padding: 14px 18px; font-size: 16px; background: rgba(255,204,0,0.05);">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label for="dCompanyAge" data-i18n="label_company_age">Company Age</label>
+                                <input id="dCompanyAge" dir="auto" placeholder="e.g. 3 years 2 months"
+                                    style="padding: 14px 18px; font-size: 16px;"
+                                    data-i18n-placeholder="placeholder_age">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="gap: 16px; margin-bottom: 24px;">
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label for="dLocation" data-i18n="label_location">النطاق</label>
+                                <input id="dLocation" dir="auto" value="اسيوط"
+                                    style="padding: 14px 18px; font-size: 16px;">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group" style="margin-bottom: 0; padding: 16px;">
+                                <label for="dTeamSize" data-i18n="label_team_size">عدد افراد الفريق</label>
+                                <input id="dTeamSize" type="number" dir="auto"
+                                    style="padding: 14px 18px; font-size: 16px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dHistory" data-i18n="label_history">التاريخ</label>
+                        <div class="q-desc" data-i18n="desc_history">اﻟﺘﺪﺧﻼت اﻟﺴﺎﺑﻘﺔ ﻟﺤﻞ ﻫﺬه اﻟﺸﻜﻮى أو أي ﺷﻜﻮى أﺧﺮى
+                        </div>
+                        <textarea id="dHistory" dir="auto" placeholder="Enter previous interventions..."
+                            data-i18n-placeholder="placeholder_history"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dMainComplaint" data-i18n="label_complaint">الشكوى الرئيسية</label>
+                        <div class="q-desc" data-i18n="desc_complaint">ﺗﻜﺘﺐ ﺑﻨﻔﺲ ﺻﻴﺎﻏﺔ اﻟﻤﺆﺳﺲ</div>
+                        <textarea id="dMainComplaint" dir="auto" placeholder="Enter main complaint..."
+                            data-i18n-placeholder="placeholder_complaint"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dSymptoms" data-i18n="label_symptoms">الأعراض</label>
+                        <div class="q-desc" data-i18n="desc_symptoms">ﻛﻴﻒ ﺷﻌﺮ اﻟﻤﺆﺳﺲ أن ﻫﻨﺎك ﻣﺸﻜﻠﺔ؟ ﻣﺎ ﻫﻲ اﻟﻤﺸﺎﻛﻞ اﻷﺧﺮى
+                            اﻟﻤﺘﻌﻠﻘﺔ ﺑﺎﻟﺸﻜﻮى اﻟﺮﺋﻴﺴﻴﺔ اﻟﺘﻲ ﻳﺴﺘﻄﻴﻊ اﻟﻤﺆﺳﺲ ﻣﻼﺣﻈﺘﻬﺎ</div>
+                        <textarea id="dSymptoms" dir="auto" placeholder="Enter symptoms..."
+                            data-i18n-placeholder="placeholder_symptoms"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dSigns" data-i18n="label_signs">العلامات</label>
+                        <div class="q-desc" data-i18n="desc_signs">ﻣﺆﺷﺮات ﺗﻨﺒﺊ ﺑﻮﺟﻮد ﻣشكله ﻳﺴﺘﻄﻴﻊ أن ﻳﺘﻌﺮف ﻋﻠﻴﻬﺎ اﻟﺨﺒﻴﺮ
+                            ﻓﻘﻂ</div>
+                        <textarea id="dSigns" dir="auto" placeholder="Enter signs..."
+                            data-i18n-placeholder="placeholder_signs"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dExpertNotes" data-i18n="label_expert_notes">ملاحظات الخبير</label>
+                        <div class="q-desc" data-i18n="desc_expert_notes">ﺑﻌﺪ ﻓﺤﺺ ﺟﻮاﻧﺐ اﻟﺸﺮﻛﺔ اﻟﺘﺎﻟﻴﺔ: الماليات -
+                            المبيعات - التسويق- المنتج - الفريق حدد ماذا يعمل بشكل عادي، جيد، أو سئ و لماذا؟</div>
+                        <textarea id="dExpertNotes" dir="auto" placeholder="Enter expert notes..."
+                            data-i18n-placeholder="placeholder_expert_notes"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dPossibleCauses" data-i18n="label_possible_causes">الأسباب المحتملة</label>
+                        <div class="q-desc" data-i18n="desc_possible_causes">ﺗﺒﻌﺎً ﻟﻠﻔﺤﺺ، اﻷﻋﺮاض واﻟﻌﻼﻣﺎت ﻣﺎ ﻫﻲ اﻷﺳﺒﺎب
+                            اﻟﻤﺤﺘﻤﻠﺔ اﻟﺘﻲ ﻗﺪ ﺗؤدي إﻟﻰ اﻟﺸﻜﻮى اﻟﺮﺋﻴﺴﻴﺔ ﻟﻠشررﻛﺔ؟ ﺣﺪد ﻣﻦ 3 إﻟﻰ 5 أﺳﺒﺎب</div>
+                        <textarea id="dPossibleCauses" dir="auto" placeholder="Enter possible causes..."
+                            data-i18n-placeholder="placeholder_possible_causes"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dTests" data-i18n="label_tests">الإختبارات</label>
+                        <div class="q-desc" data-i18n="desc_tests">ﺣﺪد اﻹﺧﺘﺒﺎرات اﻟﻤﻄﻠﻮﺑﺔ ﻟﻜﻲ ﺗﺄﻛﺪ أو ﺗﻨﻔﻲ اﻟﻔﺮﺿﻴﺎت
+                            اﻟﻤﺤﺘﻤﻠﺔ</div>
+                        <textarea id="dTests" dir="auto" placeholder="Enter tests..."
+                            data-i18n-placeholder="placeholder_tests"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dActualCause" data-i18n="label_actual_cause">السبب الفعلي</label>
+                        <div class="q-desc" data-i18n="desc_actual_cause">اﻟﻘﺮار اﻟﻨﻬﺎﺋﻲ، ﻣﺎ ﻫﻮ اﻟﺴﺒﺐ اﻟﻔﻌﻠﻲ ﻟﺤﺪوث
+                            اﻟﺸﻜﻮى اﻟﺮﺋﻴﺴﻴﺔ؟</div>
+                        <textarea id="dActualCause" dir="auto" placeholder="Enter actual cause..."
+                            data-i18n-placeholder="placeholder_actual_cause"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dSolutionPlan" data-i18n="label_solution_plan">خطة الحل</label>
+                        <div class="q-desc" data-i18n="desc_solution_plan">ﺗﻘﺪﻳﻢ ﺣﻠﻮل ﺗﻔﺼﻴﻠﻴﺔ وﺧﻄﺔ ﺗﻨﻔﻴﺬ واﺿﺤﺔ ﻟﻤﻌﺎﻟﺠﺔ
+                            اﻟﻤﺸﻜﻠﺔ اﻟﺤﺎﻟﻴﺔ، ﺑﺤﻴﺚ ﺗﻬﺪف ﻫﺬه
+                            اﻟﺤﻠﻮل إﻟﻰ ﺗﻘﻠﻴﻞ اﻷﻋﺮاض، وﻣﻌﺎﻟجة أو اﻟﺤﺪ ﻣﻦ اﻟﺴﺒﺐ اﻟﺠﺬري ﻠﻠﻤﺸﻜﻠﺔ، واﺳﺘﻌﺎدة ﻛﻔﺎءة اﻷداء ﺑﺸﻜﻞ
+                            ﻛﺎﻣﻞ أو ﺟﺰئي. ﻳﺠﺐ ﻋﺮض ﺟﻤﻴﻊ اﻟﺨﻴﺎرات اﻟﻤﺘﺎﺣﺔ ﻋﻠﻰ اﻟﻤﺆﺳﺲ ﺑﺸﻜﻞ ﺷﺎﻣﻞ وﺷﻔﺎف، ﻣﻊ ﺗﻮﺿﻴﺢ اﻟﻨﺘﺎﺋﺞ
+                            اﻟﻤﺘﻮﻗﻌﺔ ﻟﻜﻞ ﺧﻴﺎر، واﻟﺘﻜﺎﻟﻴﻒ اﻟﻤﺮﺗﺒﻄﺔ ﺑﻪ، واﻟﺘﺒﻌﺎت أو اﻟﻤﺨﺎﻃﺮ اﻟﻤﺤﺘﻤﻠﺔ. ﻛﻤﺎ ﻳﻨﺒغي ﺗﻮﺿﻴﺢ
+                            اﻟﻌﻮاﻗﺐ اﻟﻤﺘﺮﺗﺒﺔ ﻋﻠﻰ ﻋﺪم اﺗﺨﺎذ أي إﺟﺮاء. ﻓﻲ اﻟﻨﻬﺎﻳﺔ، ﻳُﻤﻨﺢ اﻟﻤﺆﺳﺲ اﻟﺤﺮﻳﺔ اﻟﻜﺎﻣﻠﺔ ﻻﺧﺘﻴﺎر
+                            اﻟﻤﺴﺎر اﻟﺬي ﻳﺮاه ﻣﻨﺎﺳﺒًﺎ، ﺑﻌﺪ اﻻﻃﻼع اﻟﻜﺎﻣﻞ ﻋﻠﻰ ﻛﺎﻓﺔ اﻟﺒﺪاﺋﻞ وﻓﻬﻢ ﺗﺄﺛﻴﺮ ﻛﻞ ﻗﺮار ﺑﺸﻜﻞ دﻗﻴﻖ
+                        </div>
+                        <textarea id="dSolutionPlan" dir="auto" placeholder="Enter solution plan..."
+                            data-i18n-placeholder="placeholder_solution_plan"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn secondary" onclick="closeDiagnoseModal()">Cancel</button>
+                <button type="submit" form="diagnoseForm" class="btn" id="dSubmitBtn">Save Diagnose</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Modal -->
+    <div class="modal" id="sessionModal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle" data-i18n="modal_session_title">Session Details</div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody" dir="auto"></div>
+        </div>
+    </div>
+
+    <!-- Mentor PIN Modal -->
+    <div id="mentorPinModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <span class="modal-title">تعيين رمز الدخول (PIN)</span>
+                <button class="modal-close" onclick="$('mentorPinModal').style.display='none'">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>الرمز السري الجديد</label>
+                    <input type="password" id="newMentorPin" placeholder="أدخل الرمز هنا" style="text-align: center; letter-spacing: 4px;">
+                    <p style="font-size: 11px; color: var(--muted); margin-top: 8px;">اترك الحقل فارغاً إذا كنت تريد الدخول بدون رمز.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" onclick="$('mentorPinModal').style.display='none'">إلغاء</button>
+                <button class="btn" onclick="saveMentorPinSelf()">حفظ الرمز</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content" style="max-width: 400px">
+            <div class="modal-header">
+                <div class="modal-title">دخول الإدارة \ المطور</div>
+                <button class="modal-close" onclick="$('adminLoginModal').style.display='none'">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <input type="text" id="adminUser" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="adminPass" placeholder="••••••••">
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 16px" onclick="handleAdminLogin()">تسجيل
+                    الدخول</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * CONFIGURATION FOR GITHUB DEPLOYMENT
+         * 1. Deploy your Apps Script as a Web App (Anyone with access)
+         * 2. Paste the executable URL (/exec) below
+         */
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwFzYkGJFWFtpJ208qEtOe2AgVnHJgWw_vreZ3WNRVAFbWwgiKtcR_6EQnWUPWneY94/exec";
+
+        // google.script.run Bridge (Shim) for environments outside of GAS (like GitHub Pages)
+        if (typeof google === 'undefined' || !google.script || !google.script.run) {
+            window.google = {
+                script: {
+                    run: (function () {
+                        var successHandler = null;
+                        var failureHandler = null;
+
+                        var callGas = function (funcName, args, sH, fH) {
+                            if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL === "YOUR_WEB_APP_URL_HERE") {
+                                console.error("GAS_WEB_APP_URL is not configured.");
+                                if (fH) fH(new Error("Backend URL not configured."));
+                                return;
+                            }
+                            fetch(GAS_WEB_APP_URL, {
+                                method: 'POST',
+                                mode: 'cors', // Crucial for across-domain requests
+                                body: JSON.stringify({ functionName: funcName, args: args })
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data && data.error) { if (fH) fH(new Error(data.error)); }
+                                    else { if (sH) sH(data); }
+                                })
+                                .catch(err => { if (fH) fH(err); });
+                        };
+
+                        var createProxy = function (s, f) {
+                            return new Proxy({}, {
+                                get: function (target, prop) {
+                                    if (prop === 'withSuccessHandler') return function (h) { return createProxy(h, f); };
+                                    if (prop === 'withFailureHandler') return function (h) { return createProxy(s, h); };
+                                    return function () {
+                                        var args = Array.prototype.slice.call(arguments);
+                                        callGas(prop, args, s, f);
+                                    };
+                                }
+                            });
+                        };
+                        return createProxy(null, null);
+                    })()
+                }
+            };
+        }
+
+        let currentMentor = null;
+        let currentRound = null;
+        let followUpData = [];
+        let followupFilterAssigned = true;
+        let allCompanies = []; // Global store for form
+        let isFormDirty = false;
+        let lastLoadedDay = null;
+
+        const $ = (id) => document.getElementById(id);
+        const markClean = () => { isFormDirty = false; };
+        const markDirty = () => { isFormDirty = true; };
+        const showError = (el, msg) => { el.textContent = msg || 'Error'; el.style.display = 'block'; }
+        const hideError = (el) => { el.style.display = 'none'; }
+        const showLoading = (msg) => { const l = $('loading'); $('loadingText').textContent = msg || 'Loading'; l.style.display = 'flex' }
+        const hideLoading = () => { const l = $('loading'); l.style.display = 'none' }
+        const toast = (msg) => { const t = $('toast'); t.textContent = msg; t.style.display = 'block'; setTimeout(() => { t.style.display = 'none' }, 2500) }
+        const setSkeleton = (on) => { ['descV', 'startV', 'stageV', 'tractV', 'revV'].forEach(id => { const el = $(id); if (on) { el.classList.add('skeleton') } else { el.classList.remove('skeleton') } }) }
+        
+        const normalizeArabic = (str) => {
+            if (!str) return "";
+            return str.toString()
+                .trim()
+                .replace(/[أإآ]/g, "ا")
+                .replace(/ة/g, "ه")
+                .replace(/ى/g, "ي")
+                .toLowerCase();
+        };
+        const i18n = {
+            en: {
+                brand: "Mentor Portal", tab_info: "Info", tab_feedbacks: "Feedbacks", signin_title: "Sign In",
+                signin_tag: "Access your assigned companies", label_round: "Select Round", loading_rounds: "Loading rounds...",
+                label_mentor: "Select Mentor Name", select_round_first: "Select round first", label_pin: "PIN Code (If applicable)",
+                btn_signin: "Sign In", mentor_title: "Mentor", btn_refresh: "Refresh", btn_logout: "Logout",
+                label_company: "Company", label_start_date: "Start Date", label_stage: "Stage", label_traction: "Traction",
+                label_revenue: "Annual Revenue", followup_title: "Mentor Action & Feedbacks", btn_create_feedback: "Create Feedback",
+                label_filter_company: "Filter by Company", label_filter: "Filter", btn_all: "All", btn_minded: "Minded",
+                loading: "Loading...", modal_feedback_title: "Create New Feedback", label_mentor_name: "Mentor Name",
+                label_round_f: "Round", label_company_name: "Company Name", placeholder_company: "Search and select company...",
+                label_day: "Day Of Session", select_day: "Select Day", label_status: "Current Status",
+                desc_status: "Explain the current stage and any support needed.", placeholder_desc: "Enter description...",
+                label_achievements: "Achievements", desc_achievements: "What was implemented since last session?",
+                placeholder_achievements: "Enter achievements...", label_action_steps: "Action Steps",
+                desc_action_steps: "What should be done before next session?", placeholder_next_steps: "Enter next steps...",
+                label_mentor_score: "Mentor Score (0 - 5)", desc_mentor_score: "Overall evaluation of the startup.",
+                label_prod_score: "Product Evaluation",
+                label_ops_score: "Operations Evaluation",
+                label_sales_score: "Sales Evaluation",
+                label_mkt_score: "Marketing Evaluation",
+                label_fin_score: "Finance Evaluation",
+                btn_cancel: "Cancel", btn_submit: "Submit Feedback", modal_diagnosing_title: "Diagnosing Tool",
+                label_company_age: "Company Age", placeholder_age: "e.g. 3 years 2 months", label_location: "Location",
+                label_team_size: "Team Size", label_history: "History", desc_history: "Previous interventions...",
+                label_complaint: "Main Complaint", desc_complaint: "In the founder's own words...",
+                label_symptoms: "Symptoms", desc_symptoms: "How did the founder feel there's a problem?",
+                label_signs: "Signs", desc_signs: "Indicators recognizable only by experts...",
+                label_expert_notes: "Expert Notes", desc_expert_notes: "Finance, Sales, Marketing, Product, Team...",
+                label_possible_causes: "Possible Causes", desc_possible_causes: "Identify 3-5 potential root causes.",
+                label_tests: "Tests", desc_tests: "Identify tests to confirm hypotheses.",
+                label_actual_cause: "Actual Cause", desc_actual_cause: "The final root cause identified.",
+                label_solution_plan: "Solution Plan", desc_solution_plan: "Detailed solutions and implementation plan.",
+                btn_save_diagnose: "Save Diagnose", modal_session_title: "Session Details",
+                submitted_edit: "(Submitted / Click to Edit)",
+                unsaved_changes: "You have unsaved changes! Please click the submit or save button.",
+                btn_save_changes: "Save Changes"
+            },
+            ar: {
+                brand: "بوابة الموجه", tab_info: "معلومات", tab_feedbacks: "التقرير", signin_title: "تسجيل الدخول",
+                signin_tag: "الوصول إلى الشركات المخصصة لك", label_round: "اختر الدورة", loading_rounds: "جاري تحميل الدورات...",
+                label_mentor: "اختر اسم الموجه", select_round_first: "اختر الدورة أولاً", label_pin: "رمز الدخول (إن وجد)",
+                btn_signin: "تسجيل الدخول", mentor_title: "الموجه", btn_refresh: "تحديث", btn_logout: "خروج",
+                label_company: "الشركة", label_start_date: "تاريخ البدء", label_stage: "المرحلة", label_traction: "النمو",
+                label_revenue: "الإيرادات السنوية", followup_title: "إجراءات الموجه والتقارير", btn_create_feedback: "إنشاء تقرير",
+                label_filter_company: "تصفية حسب الشركة", label_filter: "تصفية", btn_all: "الكل", btn_minded: "المخصصة لي",
+                loading: "جاري التحميل...", modal_feedback_title: "إنشاء تقرير جديد", label_mentor_name: "اسم الموجه",
+                label_round_f: "الدورة", label_company_name: "اسم الشركة", placeholder_company: "ابحث واختر الشركة...",
+                label_day: "يوم الجلسة", select_day: "اختر اليوم", label_status: "الوضع الحالي",
+                desc_status: "يرجى توضيح المرحلة التي وصلت إليها الشركة حاليًا وأي جوانب تحتاج إلى دعم أو تطوير", placeholder_desc: "أدخل الوصف...",
+                label_achievements: "الإنجازات منذ الجلسة الأخيرة", desc_achievements: "يرجى توضيح الخطوات أو المهام التي تم الاتفاق عليها في الجلسة السابقة.",
+                placeholder_achievements: "أدخل الإنجازات...", label_action_steps: "خطوات العمل القادمة",
+                desc_action_steps: "ما هي الخطوات العملية التي ينبغي تنفيذها قبل الجلسة القادمة؟", placeholder_next_steps: "أدخل الخطوات القادمة...",
+                label_mentor_score: "تقييم الموجه (0 - 5)", desc_mentor_score: "ما هو تقييمك للشركة بشكل عام؟",
+                label_prod_score: "تقييم المنتج",
+                label_ops_score: "تقييم العمليات",
+                label_sales_score: "تقييم المبيعات",
+                label_mkt_score: "تقييم التسويق",
+                label_fin_score: "تقييم الماليات",
+                btn_cancel: "إلغاء", btn_submit: "إرسال التقرير", modal_diagnosing_title: "أداة التشخيص",
+                label_company_age: "عمر الشركة", placeholder_age: "مثلاً: 3 سنوات شهرين", label_location: "النطاق ",
+                label_team_size: "عدد أفراد الفريق", label_history: "تاريخ التدخلات", desc_history: "التدخلات السابقة لحل هذه الشكوى أو أي شكوى أخرى",
+                label_complaint: "الشكوى الرئيسية", desc_complaint: "تكتب بنفس صياغة المؤسس",
+                label_symptoms: "الأعراض", desc_symptoms: "كيف شعر المؤسس أن هناك مشكلة؟",
+                label_signs: "العلامات", desc_signs: "مؤشرات تنبئ بوجود مشكلة يلاحظها الخبير فقط",
+                label_expert_notes: "ملاحظات الخبير", desc_expert_notes: "الماليات - المبيعات - التسويق - المنتج - الفريق",
+                label_possible_causes: "الأسباب المحتملة", desc_possible_causes: "حدد من 3 إلى 5 أسباب محتملة",
+                label_tests: "الاختبارات المطلوبة", desc_tests: "حدد الاختبارات لتأكيد أو نفي الفرضيات",
+                label_actual_cause: "السبب الفعلي", desc_actual_cause: "ما هو السبب الجذري للمشكلة؟",
+                label_solution_plan: "خطة الحل", desc_solution_plan: "تقديم حلول تفصيلية وخطة تنفيذ واضحة.",
+                btn_save_diagnose: "حفظ التشخيص", modal_session_title: "تفاصيل الجلسة", label_description: "الوصف",
+                placeholder_solution_plan: "أدخل خطة الحل...", placeholder_desc: "أدخل الوصف...",
+                placeholder_achievements: "أدخل الإنجازات...", placeholder_next_steps: "أدخل الخطوات القادمة...",
+                placeholder_history: "أدخل التاريخ...", placeholder_complaint: "أدخل الشكوى...",
+                placeholder_symptoms: "أدخل الأعراض...", placeholder_signs: "أدخل العلامات...",
+                placeholder_expert_notes: "أدخل الملاحظات...", placeholder_possible_causes: "أدخل الأسباب...",
+                placeholder_tests: "أدخل الاختبارات...", placeholder_actual_cause: "أدخل السبب...",
+                submitted_edit: "(تم التسليم \ اضغط للتعديل)",
+                unsaved_changes: "هناك تغييرات غير محفوظة! يرجى الضغط على زر الإرسال أو الحفظ.",
+                btn_save_changes: "حفظ التعديلات"
+            }
+        };
+
+        const langApply = (l) => {
+            document.documentElement.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', l);
+            localStorage.setItem('lang', l);
+            const b = $('langToggle');
+            if (b) { b.textContent = l === 'ar' ? 'EN' : 'AR' }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[l][key]) el.textContent = i18n[l][key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (i18n[l][key]) el.setAttribute('placeholder', i18n[l][key]);
+            });
+
+            // Re-render date and money formats
+            if (currentMentor) {
+                const v = $('companySelect').value;
+                if (v) fetchDetails(v);
+            }
+        }
+        const langInit = () => { const l = localStorage.getItem('lang') || 'ar'; langApply(l) }
+
+        const openModal = (title, body) => {
+            $('modalTitle').textContent = title;
+            $('modalBody').textContent = body;
+            $('sessionModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+        const closeModal = () => {
+            $('sessionModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        const openFeedbackModal = (presetCompany) => {
+            const name = currentMentor || 'Unknown Mentor';
+            $('feedbackForm').reset();
+            $('fMentorName').value = name;
+            $('fMentorNameDisplay').textContent = name;
+            $('fRound').value = (currentRound || 'R_01').replace('R_', 'Round ');
+
+            if (presetCompany) {
+                $('fCompanyName').value = presetCompany;
+            }
+
+            renderCompanySearchResults('');
+
+            // Reset stars
+            document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+            $('fScoreValue').textContent = '0.0';
+            $('fScore').value = '0.0';
+            ['fProdScore', 'fOpsScore', 'fSalesScore', 'fMktScore', 'fFinScore'].forEach(id => {
+                $(id).value = '0.0';
+                const container = $(id).parentElement.querySelector('.score-stars');
+                if (container) {
+                    container.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+                    const valEl = container.querySelector('.score-value');
+                    if (valEl) valEl.textContent = '0.0';
+                }
+            });
+
+            // Reset counters
+            document.querySelectorAll('.char-counter .count').forEach(c => c.textContent = '0');
+
+            $('fSubmitBtn').textContent = i18n[document.documentElement.getAttribute('lang') || 'ar'].btn_submit;
+
+            $('feedbackModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            markClean(); // Reset dirty flag on open
+            lastLoadedDay = null;
+            if (followUpData.length === 0) {
+                loadFollowUpLazy(() => refreshFDayOptions(presetCompany || ''));
+            } else {
+                refreshFDayOptions(presetCompany || '');
+            }
+            loadCompaniesForForm();
+        };
+
+        const refreshFDayOptions = (companyName) => {
+            const lang = document.documentElement.getAttribute('lang') || 'ar';
+            const submittedText = i18n[lang].submitted_edit;
+            const isMobile = window.innerWidth <= 600;
+            const mobileIndicator = '(✓)';
+            const fDay = $('fDay');
+            if (!fDay) return;
+            const companyData = followUpData.find(c => c.company.toLowerCase() === companyName.toLowerCase());
+
+            // Default labels
+            const options = fDay.querySelectorAll('option');
+            options.forEach((opt, idx) => {
+                if (idx === 0) return; // Skip "Select Day"
+                const dayValue = opt.value; // Day_01, Day_02...
+                const dayNum = parseInt(dayValue.split('_')[1]);
+                let label = dayValue;
+
+                if (companyData) {
+                    const session = companyData.sessions.find(s => s.num === dayNum);
+                    const isSubmitted = session && (
+                        (session.actions && session.actions.toString().trim() !== '') ||
+                        (session.score && session.score.toString().trim() !== '') ||
+                        (session.status && session.status.toString().trim() !== '')
+                    );
+                    if (isSubmitted) {
+                        label += ' ' + (isMobile ? mobileIndicator : submittedText);
+                    }
+                }
+                opt.textContent = label;
+                opt.label = label; // For mobile compatibility
+                opt.text = label;
+            });
+        };
+        const closeFeedbackModal = () => {
+            if (isFormDirty) {
+                const lang = document.documentElement.getAttribute('lang') || 'ar';
+                if (!confirm(i18n[lang].unsaved_changes)) return;
+            }
+            $('feedbackModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            markClean();
+            lastLoadedDay = null;
+        };
+
+        const openDiagnoseModal = () => {
+            const name = currentMentor || 'Unknown Mentor';
+            const company = $('companySelect').value;
+            if (!company) return toast('Please select a company first');
+
+            $('dMentorName').value = name;
+            $('dMentorNameDisplay').textContent = name;
+            $('dCompanyName').value = company;
+            $('diagnoseForm').reset();
+            $('dMentorName').value = name;
+            $('dMentorNameDisplay').textContent = name;
+            $('dCompanyName').value = company;
+            $('dLocation').value = 'اسيوط'; // Reset to default
+
+            // Auto-calculate age from startV raw data
+            const startStr = $('startV').getAttribute('data-raw');
+            if (startStr && startStr !== '—') {
+                $('dCompanyAge').value = calculateAge(startStr);
+            }
+
+            showLoading('Checking existing diagnose...');
+            google.script.run.withSuccessHandler(function (data) {
+                hideLoading();
+                if (data) {
+                    // data is the existing record
+                    // Mapping based on columns: D is 0 (relative to D), E is 1, etc.
+                    // In the sheet: D=4, E=5, F=6, G=7, H=8, J=10, K=11, L=12
+                    // But getDiagnoseData will return an object
+                    $('dHistory').value = data.history || '';
+                    $('dMainComplaint').value = data.mainComplaint || '';
+                    $('dSymptoms').value = data.symptoms || '';
+                    $('dSigns').value = data.signs || '';
+                    $('dExpertNotes').value = data.expertNotes || '';
+                    $('dPossibleCauses').value = data.possibleCauses || '';
+                    $('dTests').value = data.tests || '';
+                    $('dActualCause').value = data.actualCause || '';
+                    $('dSolutionPlan').value = data.solutionPlan || '';
+
+                    // Also try to parse Company Name (Column C) to get Age, Location, Team Size if possible
+                    if (data.companyCombined) {
+                        const parts = data.companyCombined.split(' \\ ');
+                        if (parts.length >= 4) {
+                            $('dCompanyAge').value = parts[1].trim();
+                            $('dLocation').value = parts[2].trim();
+                            $('dTeamSize').value = parts[3].trim();
+                        }
+                    }
+                }
+                $('diagnoseModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }).withFailureHandler(function (err) {
+                hideLoading();
+                toast('Error checking existing data: ' + err.message);
+                document.body.style.overflow = 'hidden';
+            }).getDiagnoseData(company);
+        };
+
+        const closeDiagnoseModal = () => {
+            $('diagnoseModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        // === ADMIN LOGIC ===
+        const openAdminLoginModal = () => {
+            $('adminLoginModal').style.display = 'flex';
+            $('adminUser').value = '';
+            $('adminPass').value = '';
+        };
+
+        const handleAdminLogin = () => {
+            const user = $('adminUser').value;
+            const pass = $('adminPass').value;
+            showLoading('Authenticating...');
+            google.script.run.withSuccessHandler(function (res) {
+                hideLoading();
+                if (res.ok) {
+                    $('adminLoginModal').style.display = 'none';
+                    $('loginPanel').style.display = 'none';
+                    $('adminPanel').style.display = 'block';
+                    loadAdminStats();
+                }
+            }).withFailureHandler(function (err) {
+                hideLoading();
+                toast(err.message);
+            }).validateAdminLogin(user, pass);
+        };
+
+        const switchAdminTab = (tab, el) => {
+            const tabs = el.parentElement.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+
+            $('adminStatsView').style.display = tab === 'stats' ? 'block' : 'none';
+            $('adminManagementView').style.display = tab === 'management' ? 'block' : 'none';
+            $('adminSettingsView').style.display = tab === 'settings' ? 'block' : 'none';
+        };
+
+        const loadAdminStats = () => {
+            showLoading('جاري تحميل الإحصائيات...');
+            google.script.run.withSuccessHandler(function (data) {
+                hideLoading();
+                $('statTotalMentors').textContent = data.totalMentors;
+
+                let totalReports = 0;
+                let totalDiag = 0;
+                const list = $('adminMentorsTable');
+                list.innerHTML = '';
+
+                const sortedMentors = Object.keys(data.mentors).sort();
+                sortedMentors.forEach((m, idx) => {
+                    const s = data.mentors[m];
+                    totalReports += s.reports;
+                    totalDiag += s.diagnoses;
+
+                    // Parent Row (Mentor)
+                    const tr = document.createElement('tr');
+                    tr.className = 'mentor-row';
+                    tr.onclick = () => toggleMentorDetails(idx);
+                    tr.innerHTML = `
+                        <td>
+                            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            <div style="font-weight:700">${m}</div>
+                        </td>
+                        <td><div style="font-size:11px; color:var(--muted)">${s.rounds.join(', ')}</div></td>
+                        <td style="text-align:center">
+                           <span class="badge ${s.reports > 0 ? 'success' : ''}">${s.reports}</span>
+                        </td>
+                        <td style="text-align:center">
+                           <span class="badge ${s.diagnoses > 0 ? 'accent' : ''}">${s.diagnoses}</span>
+                        </td>
+                    `;
+                    list.appendChild(tr);
+
+                    // Details Row (Companies)
+                    const dr = document.createElement('tr');
+                    dr.className = 'details-row';
+                    dr.id = `details-${idx}`;
+                    
+                    let companyRows = '';
+                    const sortedCompanies = Object.keys(s.companies).sort();
+                    
+                    if (sortedCompanies.length === 0) {
+                        companyRows = '<tr><td colspan="3" style="text-align:center; color:var(--muted)">لا يوجد شركات مسجلة</td></tr>';
+                    } else {
+                        sortedCompanies.forEach(c => {
+                            const cs = s.companies[c];
+                            const lastD = cs.lastDiagnose ? new Date(cs.lastDiagnose).toLocaleDateString('ar-EG') : '—';
+                            companyRows += `
+                                <tr>
+                                    <td style="font-weight:600">${c}</td>
+                                    <td style="text-align:center">${cs.reports}</td>
+                                    <td style="text-align:center; direction:ltr">${lastD}</td>
+                                </tr>
+                            `;
+                        });
+                    }
+
+                    dr.innerHTML = `
+                        <td colspan="4">
+                            <div class="details-container">
+                                <table class="sub-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الشركة</th>
+                                            <th style="text-align:center">عدد التقارير</th>
+                                            <th style="text-align:center">آخر تشخيص</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${companyRows}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    `;
+                    list.appendChild(dr);
+                });
+
+                $('statTotalReports').textContent = totalReports;
+                $('statTotalDiagnoses').textContent = totalDiag;
+
+                // populate settings inputs
+                $('adminFormId').value = data.settings.formId;
+                $('adminDiagId').value = data.settings.diagnoseId;
+                $('linkReports').href = data.reportUrl;
+                $('linkDiag').href = data.diagnoseUrl;
+
+                // Populate Management Tab
+                updateAdminRoundsTable(data.rounds, data.disabledRounds);
+                updateAdminPinsTable(Object.keys(data.mentors), data.mentorPins);
+
+            }).withFailureHandler(function (err) {
+                hideLoading();
+                toast(err.message);
+            }).getAdminStats();
+        };
+
+        const toggleMentorDetails = (idx) => {
+            const row = document.querySelectorAll('.mentor-row')[idx];
+            const details = $(`details-${idx}`);
+            if (!row || !details) return;
+
+            const isExpanded = row.classList.contains('expanded');
+            
+            // Close others if needed (optional)
+            // document.querySelectorAll('.mentor-row').forEach(r => r.classList.remove('expanded'));
+            // document.querySelectorAll('.details-row').forEach(d => d.classList.remove('show'));
+
+            if (isExpanded) {
+                row.classList.remove('expanded');
+                details.classList.remove('show');
+            } else {
+                row.classList.add('expanded');
+                details.classList.add('show');
+            }
+        };
+
+        const updateAdminRoundsTable = (rounds, disabled) => {
+            const list = $('adminRoundsTable');
+            list.innerHTML = rounds.map(r => `
+                <tr>
+                    <td><div style="font-weight:700">${r.label} (${r.id})</div></td>
+                    <td style="text-align:center">
+                        <label class="switch">
+                            <input type="checkbox" ${!disabled[r.id] ? 'checked' : ''} onchange="setRoundActive('${r.id}', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        const updateAdminPinsTable = (mentors, pins) => {
+            const list = $('adminPinsTable');
+            list.innerHTML = mentors.sort().map(m => `
+                <tr>
+                    <td><div style="font-weight:700">${m}</div></td>
+                    <td style="text-align:center">
+                        <input type="text" id="pin-${m}" value="${pins[m] || ''}" placeholder="لا يوجد رمز" 
+                            style="width: 100px; text-align: center; font-size: 13px; padding: 4px; border-radius: 4px; border: 1px solid var(--border)">
+                    </td>
+                    <td style="text-align:center">
+                        <button class="btn secondary" style="padding: 4px 12px; font-size: 12px" onclick="saveMentorPinUI('${m}')">حفظ</button>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        const setRoundActive = (id, active) => {
+            google.script.run.withSuccessHandler(() => {
+                toast(`تم ${active ? 'تفعيل' : 'تعطيل'} الدورة ${id}`);
+            }).toggleRoundStatus(id, active);
+        };
+
+        const saveMentorPinUI = (name) => {
+            const pin = $(`pin-${name}`).value;
+            google.script.run.withSuccessHandler(() => {
+                toast(`تم تحديث الرمز للموجه ${name}`);
+            }).updateMentorPin(name, pin);
+        };
+
+        const checkDevPass = (val) => {
+            if (val.trim() === 'hzzz3m') {
+                const lock = $('settingsLock');
+                const content = $('settingsContent');
+                if (lock) lock.style.setProperty('display', 'none', 'important');
+                if (content) {
+                    content.style.opacity = '1';
+                    content.style.pointerEvents = 'all';
+                }
+            }
+        };
+
+        const saveAdminSettings = () => {
+            const formId = $('adminFormId').value;
+            const diagId = $('adminDiagId').value;
+            const pass = $('devPass').value;
+
+            showLoading('جاري الحفظ...');
+            google.script.run.withSuccessHandler(function () {
+                hideLoading();
+                toast('تم حفظ الإعدادات بنجاح');
+                loadAdminStats(); // Refresh local variables
+            }).withFailureHandler(function (err) {
+                hideLoading();
+                toast(err.message);
+            }).updateSettings(formId, diagId, pass);
+        };
+
+        const calculateAge = (dateStr) => {
+            const start = new Date(dateStr);
+            if (isNaN(start.getTime())) return '';
+            const now = new Date();
+            let years = now.getFullYear() - start.getFullYear();
+            let months = now.getMonth() - start.getMonth();
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            let res = '';
+            if (years > 0) res += years + (years === 1 ? ' year ' : ' years ');
+            if (months > 0) res += months + (months === 1 ? ' month' : ' months');
+            return res.trim() || 'Less than a month';
+        };
+
+        const updateCharCount = (el) => {
+            const count = el.value.length;
+            const counter = el.parentElement.querySelector('.count');
+            if (counter) counter.textContent = count;
+        };
+
+        const openEditFollowupModal = (company, sessionNum, status, achievements, actions, score) => {
+            $('efCompany').value = company;
+            $('efSessionNum').value = sessionNum;
+            $('efStatus').value = status || '';
+            $('efAchievements').value = achievements || '';
+            $('efActions').value = actions || '';
+
+            const val = parseFloat(score || 0);
+            $('efScore').value = val.toFixed(1);
+            $('efScoreValue').textContent = val.toFixed(1);
+            document.querySelectorAll('#efStarRating .ef-star').forEach(x => {
+                if (parseInt(x.getAttribute('data-value')) <= val) x.classList.add('active');
+                else x.classList.remove('active');
+            });
+
+            // Populating new evaluations for edit
+            const currentItem = followUpData.find(c => c.company.toLowerCase() === company.toLowerCase());
+            const currentSession = currentItem ? currentItem.sessions.find(s => s.num === sessionNum) : null;
+            if (currentSession) {
+                const fields = [
+                    { id: 'efProdScore', val: currentSession.prodScore },
+                    { id: 'efOpsScore', val: currentSession.opsScore },
+                    { id: 'efSalesScore', val: currentSession.salesScore },
+                    { id: 'efMktScore', val: currentSession.mktScore },
+                    { id: 'efFinScore', val: currentSession.finScore }
+                ];
+                fields.forEach(f => {
+                    const v = parseFloat(f.val || 0);
+                    $(f.id).value = v.toFixed(1);
+                    const container = $(f.id).parentElement.querySelector('.score-stars');
+                    if (container) {
+                        container.querySelectorAll('.star').forEach(s => {
+                            if (parseInt(s.getAttribute('data-value')) <= v) s.classList.add('active');
+                            else s.classList.remove('active');
+                        });
+                        const valEl = container.querySelector('.score-value');
+                        if (valEl) valEl.textContent = v.toFixed(1);
+                    }
+                });
+            }
+
+            ['efStatus', 'efAchievements', 'efActions'].forEach(id => updateCharCount($(id)));
+
+            $('editFollowupModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeEditFollowupModal = () => {
+            $('editFollowupModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        function handleLogin() {
+            const name = $('mentorName').value;
+            const pin = $('pin').value;
+            const round = $('roundId').value;
+            if (!round) return toast('Select the round');
+            if (!name) return toast('Select your name');
+
+            showLoading('Signing in...');
+            google.script.run.withSuccessHandler(function (res) {
+                if (!res.ok) {
+                    hideLoading();
+                    return toast('Login failed');
+                }
+
+                currentMentor = name;
+                currentRound = round;
+
+                $('mentorHeader').textContent = currentMentor;
+                $('loginPanel').style.display = 'none';
+                $('appPanel').style.display = 'block';
+                $('mainTabs').style.display = 'flex';
+                $('mobileNav').style.display = window.innerWidth <= 600 ? 'flex' : 'none';
+
+                loadInitial(true);
+            }).withFailureHandler(function (err) {
+                hideLoading();
+                toast(err.message || 'Error occurred');
+            }).validateLogin(name, pin, round);
+        }
+
+        function populateMentorDropdown(companies) {
+            const dropdown = $('mentorDropdown');
+            if (!dropdown) return;
+
+            const assigned = companies.filter(c => c.isAssigned);
+            if (assigned.length === 0) {
+                dropdown.innerHTML = '<div class="m-item" style="color:var(--muted)">No companies assigned</div>';
+                return;
+            }
+
+            const currentCompany = $('companySelect').value;
+
+            dropdown.innerHTML = assigned.map(c => `
+                <div class="m-item ${c.name === currentCompany ? 'active' : ''}" onclick="selectCompanyFromHeader('${c.name.replace(/'/g, "\\'")}')">
+                    ${c.name}
+                </div>
+            `).join('');
+        }
+
+        function selectCompanyFromHeader(name) {
+            const sel = $('companySelect');
+            sel.value = name;
+            fetchDetails(name);
+            populateMentorDropdown(allCompanies);
+        }
+
+        function toggleMentorDropdown(e) {
+            if (e) e.stopPropagation();
+            const dd = $('mentorDropdown');
+            const btn = $('mentorHeaderTrigger');
+            const isVisible = dd.style.display === 'block';
+            dd.style.display = isVisible ? 'none' : 'block';
+            if (isVisible) btn.classList.remove('open');
+            else btn.classList.add('open');
+        }
+
+        function loadInitial(isInitial) {
+            if (isInitial) showLoading('Opening workspace...');
+            const selValue = $('companySelect').value;
+
+            google.script.run.withSuccessHandler(function (data) {
+                const sel = $('companySelect');
+                const oldVal = sel.value;
+                sel.innerHTML = '<option value="">Select Startup</option>';
+                data.allCompanies.filter(c => c.isAssigned).forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = opt.textContent = c.name;
+                    sel.appendChild(opt);
+                });
+                if (oldVal && [...sel.options].some(o => o.value === oldVal)) sel.value = oldVal;
+
+                setSkeleton(false);
+                if (data.details) {
+                    renderDetails(data.details);
+                }
+
+                allCompanies = data.allCompanies;
+                populateMentorDropdown(allCompanies);
+                adaptUI();
+                hideLoading();
+                if (isInitial) toast('Signed in');
+            }).withFailureHandler(function (err) {
+                hideLoading();
+                toast('Load failed: ' + (err.message || err));
+            }).getInitialAppLoad(currentMentor, selValue, currentRound);
+        }
+
+        function loadFollowUpLazy(callback) {
+            if (followUpData.length > 0) {
+                if (callback) callback();
+                return;
+            }
+
+            const container = $('followupList');
+            if (container) container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--muted)">Loading feedbacks...</div>';
+
+            google.script.run.withSuccessHandler(function (data) {
+                followUpData = data;
+                renderFollowUp();
+                if (callback) callback();
+            }).withFailureHandler(function (err) {
+                const msg = err.message || err || 'Check connection';
+                if (container) container.innerHTML = `<div class="f-empty">Error loading feedbacks: ${msg}</div>`;
+                toast('Error loading feedbacks: ' + msg);
+                if (callback) callback();
+            }).getFollowUpData(currentMentor, currentRound);
+        }
+
+        function loadAllData(isInitial) {
+            loadInitial(isInitial);
+            followUpData = [];
+            loadFollowUpLazy();
+        }
+
+        function bootstrapInitial() {
+            $('diagnoseBtn').onclick = openDiagnoseModal;
+            $('infoCreateFeedbackBtn').onclick = () => {
+                const company = $('companySelect').value;
+                if (!company) return toast('Please select a company first');
+                openFeedbackModal(company);
+            };
+
+            google.script.run.withSuccessHandler(function (rounds) {
+                const container = $('roundCards');
+                if (rounds.length === 0) {
+                    container.innerHTML = '<div style="color:var(--muted); font-size:13px; grid-column: 1/-1">No active rounds available</div>';
+                    return;
+                }
+                
+                container.innerHTML = rounds.map(r => `
+                    <div class="round-card" onclick="selectRoundCard('${r.id}', this)">
+                        ${r.label}
+                    </div>
+                `).join('');
+            }).getRounds(false);
+        }
+
+        function selectRoundCard(id, el) {
+            // Remove active from all siblings
+            const parent = el.parentElement;
+            parent.querySelectorAll('.round-card').forEach(c => c.classList.remove('active'));
+            // Set active
+            el.classList.add('active');
+            // Set hidden value
+            $('roundId').value = id;
+            
+            // Clear mentor selection
+            $('mentorName').value = '';
+            
+            // Trigger mentor loading
+            const container = $('mentorCards');
+            container.innerHTML = '<div style="color:var(--muted); font-size:13px; grid-column: 1/-1">Loading mentors...</div>';
+            
+            google.script.run.withSuccessHandler(function (list) {
+                if (list.length === 0) {
+                    container.innerHTML = '<div style="color:var(--muted); font-size:13px; grid-column: 1/-1">No mentors found in this round</div>';
+                    return;
+                }
+                container.innerHTML = list.map(name => `
+                    <div class="round-card" onclick="selectMentorCard('${name.replace(/'/g, "\\'")}', this)">
+                        ${name}
+                    </div>
+                `).join('');
+            }).getMentors(id);
+        }
+
+        function selectMentorCard(name, el) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.round-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            $('mentorName').value = name;
+        }
+
+        const openMentorPinModal = () => {
+            $('newMentorPin').value = '';
+            $('mentorPinModal').style.display = 'flex';
+        };
+
+        const saveMentorPinSelf = () => {
+            const pin = $('newMentorPin').value;
+            showLoading('جاري الحفظ...');
+            google.script.run.withSuccessHandler(function () {
+                hideLoading();
+                $('mentorPinModal').style.display = 'none';
+                toast('تم تحديث رمز الدخول بنجاح');
+            }).withFailureHandler(function (err) {
+                hideLoading();
+                toast(err.message);
+            }).updateMentorPin(currentMentor, pin);
+        };
+
+        function renderCompanySearchResults(search) {
+            const results = $('companyResults');
+            const term = search.toLowerCase();
+            const filtered = allCompanies.filter(c => c.name.toLowerCase().includes(term));
+            if (filtered.length === 0) {
+                results.style.display = 'none';
+                return;
+            }
+            results.innerHTML = filtered.map(c => `
+                <div class="search-item ${c.isAssigned ? 'assigned' : ''}" onclick="selectCompanyForForm('${c.name.replace(/'/g, "\\'")}')">
+                  <span dir="auto">${c.name}</span>
+                  ${c.isAssigned ? '<span class="a-tag">Assigned</span>' : ''}
+                </div>
+            `).join('');
+            results.style.display = 'block';
+        }
+
+        function selectCompanyForForm(name) {
+            $('fCompanyName').value = name;
+            $('companyResults').style.display = 'none';
+            lastLoadedDay = null;
+            refreshFDayOptions(name);
+        }
+
+        function renderFollowUp() {
+            const container = $('followupList');
+            const search = $('followupFilter').value.trim().toLowerCase();
+            const filtered = followUpData.filter(item => {
+                const matchesSearch = item.company.toLowerCase().includes(search);
+                const matchesAssigned = !followupFilterAssigned || item.isAssigned;
+                return matchesSearch && matchesAssigned;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="f-empty">No records found.</div>';
+                return;
+            }
+
+            const lang = document.documentElement.getAttribute('lang') || 'ar';
+
+            container.innerHTML = filtered.map(item => {
+                const activeSessions = item.sessions.filter(s =>
+                    (s.actions && s.actions.toString().trim() !== '') ||
+                    (s.score && s.score.toString().trim() !== '') ||
+                    (s.file && s.file.toString().trim() !== '')
+                );
+
+                if (activeSessions.length === 0) return '';
+
+                // Calculate Average Score
+                const validScores = activeSessions.map(s => parseFloat(s.score || 0)).filter(sc => !isNaN(sc));
+                const avgScore = (validScores.length > 0 ? (validScores.reduce((a, b) => a + b, 0) / validScores.length) : 0).toFixed(1);
+
+                return `
+          <div class="f-card">
+            <div class="f-header" onclick="toggleCompanyCard(this)">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <span class="toggle-icon">▼</span>
+                <div class="f-title" dir="auto">${item.company}</div>
+                ${item.isAssigned ? '<span class="tag" style="color:var(--accent)">Assigned to you</span>' : ''}
+              </div>
+              
+              <div class="avg-badge">
+                 <div class="f-session-score" style="margin-right:8px;">
+                    ${[1, 2, 3, 4, 5].map(v => `<span class="star-large" style="color: ${v <= Math.round(avgScore) ? '#fbbf24' : 'rgba(255,255,255,0.1)'};">★</span>`).join('')}
+                 </div>
+                 <div style="font-weight:900; font-size:16px; color:var(--text);">${avgScore}</div>
+                 <div style="font-size:10px; text-transform:uppercase; opacity:0.6; font-weight:700;">AVG</div>
+              </div>
+            </div>
+            <div class="f-sessions">
+              ${activeSessions.map(s => {
+                    const isOwner = s.mentor && currentMentor && normalizeArabic(s.mentor) === normalizeArabic(currentMentor);
+                    const hasLongActions = s.actions && s.actions.length > 150;
+                    const hasLongAchievements = s.achievements && s.achievements.length > 150;
+                    const hasLongStatus = s.status && s.status.length > 150;
+
+                    return `
+                <div class="f-session" onclick="toggleSession(this)">
+                   <div class="f-session-header">
+                      <div style="display:flex; flex-direction:column; gap:2px;">
+                         <div class="f-session-num">Session ${s.num}</div>
+                         <div style="font-size:10px; opacity:0.6; font-weight:700;">Mentor: ${s.score || '0.0'}</div>
+                      </div>
+                      <div class="f-session-score" dir="auto">
+                         ${(function() {
+                            const cats = [s.prodScore, s.opsScore, s.salesScore, s.mktScore, s.finScore];
+                            const sAvg = (cats.reduce((acc, v) => acc + parseFloat(v || 0), 0) / 5);
+                            return [1, 2, 3, 4, 5].map(v => `<span class="star-large" style="color: ${v <= Math.round(sAvg) ? '#fbbf24' : 'rgba(255,255,255,0.1)'};">★</span>`).join('') + 
+                                   `<span style="font-size: 14px; margin-left: 6px; font-weight:900; opacity: 0.8;">${sAvg.toFixed(1)}</span>`;
+                         })()}
+                      </div>
+                   </div>
+
+                   <div class="f-session-details">
+                      <div class="f-session-section">
+                         <div class="f-section-label">${lang === 'ar' ? 'الحالة الحالية' : 'Current Status'}</div>
+                         <div class="f-session-actions" dir="auto">${s.status || '—'}</div>
+                         ${hasLongStatus ? `<button class="show-more-btn" onclick="event.stopPropagation(); toggleCardText(this)">${lang === 'ar' ? 'عرض المزيد' : 'Show More'}</button>` : ''}
+                      </div>
+
+                      <div class="f-session-section">
+                         <div class="f-section-label">${lang === 'ar' ? 'أبرز الإنجازات' : 'Key Achievements'}</div>
+                         <div class="f-session-actions" dir="auto">${s.achievements || '—'}</div>
+                         ${hasLongAchievements ? `<button class="show-more-btn" onclick="event.stopPropagation(); toggleCardText(this)">${lang === 'ar' ? 'عرض المزيد' : 'Show More'}</button>` : ''}
+                      </div>
+
+                      <div class="f-session-section">
+                         <div class="f-section-label">${lang === 'ar' ? 'خطوات العمل' : 'Action Steps'}</div>
+                         <div class="f-session-actions" dir="auto">${s.actions || '—'}</div>
+                         ${hasLongActions ? `<button class="show-more-btn" onclick="event.stopPropagation(); toggleCardText(this)">${lang === 'ar' ? 'عرض المزيد' : 'Show More'}</button>` : ''}
+                      </div>
+
+                      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                         <a href="${s.file || '#'}" target="_blank" class="f-session-file ${s.file ? '' : 'disabled'}" style="margin-top:0; flex:1; margin-right:12px;" dir="auto" onclick="${s.file ? 'event.stopPropagation()' : 'event.preventDefault(); event.stopPropagation()'}">
+                           ${s.file ? (lang === 'ar' ? '📎 عرض الملف المرفق' : '📎 View Uploaded File') : (lang === 'ar' ? '(لا يوجد ملفات)' : '(No Uploaded Files)')}
+                         </a>
+                         ${isOwner ? `
+                           <button class="btn" style="min-height:44px; padding:6px 20px; font-size:14px; border-radius:12px; background: rgba(79, 70, 229, 0.1); border: 1px solid var(--accent); white-space:nowrap;" onclick="event.stopPropagation(); openEditFollowupModal('${item.company.replace(/'/g, "\\'")}', ${s.num}, \`${(s.status || '').replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, \`${(s.achievements || '').replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, \`${(s.actions || '').replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, '${s.score}')">
+                             ✏️ ${lang === 'ar' ? 'تعديل' : 'Edit'}
+                           </button>
+                         ` : '<span class="tag" style="font-size: 11px; padding: 6px 12px; opacity: 0.6; background: rgba(0,0,0,0.05); border-radius:8px;">Read Only</span>'}
+                      </div>
+                   </div>
+                </div>
+              `}).join('')}
+            </div>
+          </div>
+        `;
+            }).join('');
+        }
+
+        function toggleCompanyCard(header) {
+            header.closest('.f-card').classList.toggle('expanded');
+        }
+
+        function toggleSession(sessionEl) {
+            sessionEl.classList.toggle('expanded');
+        }
+
+        function toggleCardText(btn) {
+            const container = btn.previousElementSibling;
+            const lang = document.documentElement.getAttribute('lang') || 'ar';
+            if (container.classList.contains('expanded')) {
+                container.classList.remove('expanded');
+                btn.textContent = lang === 'ar' ? 'عرض المزيد' : 'Show More';
+            } else {
+                container.classList.add('expanded');
+                btn.textContent = lang === 'ar' ? 'عرض أقل' : 'Show Less';
+            }
+        }
+
+
+        function fetchDetails(company) {
+            setSkeleton(true);
+            google.script.run.withSuccessHandler(function (data) {
+                $('currentCompanyTag').textContent = data.company ? 'Current: ' + data.company : '';
+                renderDetails(data);
+                setSkeleton(false);
+            }).withFailureHandler(function (err) {
+                renderDetails({ description: '', startDate: '', stage: '', traction: '', annualRevenue: '', company: '' });
+                setSkeleton(false);
+            }).getCompanyDetails(currentMentor, company, currentRound);
+        }
+
+        function formatDateText(t) {
+            if (!t) return '—';
+            var s = t.toString().trim();
+            var loc = (document.documentElement.getAttribute('lang') || 'ar') === 'ar' ? 'ar' : 'en-US';
+            var d = new Date(s);
+            if (!isNaN(d.getTime())) { try { return d.toLocaleDateString(loc, { year: 'numeric', month: 'short', day: 'numeric' }) } catch (e) { return d.toDateString() } }
+            return s;
+        }
+        function stageClass(s) {
+            if (!s) return 's-default';
+            var v = s.toString().toLowerCase();
+            if (v.indexOf('idea') > -1) return 's-idea';
+            if (v.indexOf('mvp') > -1 || v.indexOf('prototype') > -1) return 's-mvp';
+            if (v.indexOf('seed') > -1 || v.indexOf('pre-seed') > -1) return 's-seed';
+            if (v.indexOf('growth') > -1 || v.indexOf('series') > -1) return 's-growth';
+            if (v.indexOf('scale') > -1) return 's-scale';
+            return 's-default';
+        }
+        function percentFromText(s) {
+            if (!s) return null;
+            var m = s.toString().match(/(\d+(?:\.\d+)?)\s*%/);
+            if (m) { var n = parseFloat(m[1]); if (!isNaN(n)) return Math.max(0, Math.min(100, n)) }
+            return null;
+        }
+        function moneyFormat(s) {
+            if (!s) return '—';
+            var loc = (document.documentElement.getAttribute('lang') || 'ar') === 'ar' ? 'ar' : 'en-US';
+            var raw = s.toString().trim();
+            var num = parseFloat(raw.replace(/[, ]/g, ''));
+            if (!isNaN(num)) { try { return new Intl.NumberFormat(loc, { notation: 'compact', maximumFractionDigits: 1 }).format(num) } catch (e) { return num.toLocaleString() } }
+            return raw;
+        }
+        function renderDetails(d) {
+            $('descV').textContent = d.description || '—';
+            $('startV').textContent = formatDateText(d.startDate);
+            $('startV').setAttribute('data-raw', d.startDate || '');
+            var st = $('stageV');
+            st.textContent = d.stage || '—';
+            st.className = 'badge ' + stageClass(d.stage);
+            $('tractV').textContent = d.traction || '—';
+            var p = percentFromText(d.traction);
+            if (p !== null) { $('tractMeter').style.display = 'block'; $('tractFill').style.width = p + '%' } else { $('tractMeter').style.display = 'none'; $('tractFill').style.width = '0%' }
+            $('revV').textContent = moneyFormat(d.annualRevenue);
+            const sel = $('companySelect');
+            if (d.company && sel && sel.value !== d.company) sel.value = d.company;
+            if (d.company) $('diagnoseBtnContainer').style.display = 'flex';
+            else $('diagnoseBtnContainer').style.display = 'none';
+
+            // Sync header dropdown
+            populateMentorDropdown(allCompanies);
+        }
+
+        function handleLogout() {
+            currentMentor = null;
+            currentRound = null;
+            followUpData = [];
+            $('mentorName').value = '';
+            $('pin').value = '';
+            $('appPanel').style.display = 'none';
+            $('followupPanel').style.display = 'none';
+            $('adminPanel').style.display = 'none';
+            $('loginPanel').style.display = 'block';
+            $('mainTabs').style.display = 'none';
+            $('mobileNav').style.display = 'none';
+            $('mobileFab').style.display = 'none';
+            toast('Logged out');
+        }
+
+        function adaptUI() {
+            const isLoggedIn = currentMentor !== null;
+            const activeTab = document.querySelector('.tab.active, .m-tab.active')?.getAttribute('data-target') || 'appPanel';
+
+            if (isLoggedIn) {
+                const isMobileView = window.innerWidth <= 600;
+                if ($('mainTabs')) $('mainTabs').style.display = isMobileView ? 'none' : 'flex';
+                if ($('mobileNav')) $('mobileNav').style.display = isMobileView ? 'flex' : 'none';
+
+                // Safety: Ensure panels match active tab state
+                if ($('appPanel')) $('appPanel').style.display = activeTab === 'appPanel' ? 'block' : 'none';
+                if ($('followupPanel')) $('followupPanel').style.display = activeTab === 'followupPanel' ? 'block' : 'none';
+
+                if ($('mobileFab')) {
+                    $('mobileFab').style.display = (isMobileView && activeTab === 'followupPanel') ? 'flex' : 'none';
+                }
+            } else {
+                if ($('mainTabs')) $('mainTabs').style.display = 'none';
+                if ($('mobileNav')) $('mobileNav').style.display = 'none';
+                if ($('mobileFab')) $('mobileFab').style.display = 'none';
+            }
+        }
+
+        window.addEventListener('load', function () {
+            langInit();
+            bootstrapInitial();
+            adaptUI(); // Check initial state
+
+            window.addEventListener('resize', adaptUI); // Watch for orientation changes
+
+            // Tab logic
+            const tabs = document.querySelectorAll('.tab, .m-tab');
+            tabs.forEach(t => {
+                t.addEventListener('click', function () {
+                    tabs.forEach(x => x.classList.remove('active'));
+                    // Find all elements with the same target and mark active
+                    const target = this.getAttribute('data-target');
+                    document.querySelectorAll(`[data-target="${target}"]`).forEach(x => x.classList.add('active'));
+
+                    $('appPanel').style.display = target === 'appPanel' ? 'block' : 'none';
+                    $('followupPanel').style.display = target === 'followupPanel' ? 'block' : 'none';
+
+                    if (target === 'followupPanel') {
+                        loadFollowUpLazy();
+                    }
+
+                    adaptUI();
+                });
+            });
+
+            document.addEventListener('click', function () {
+                if ($('mentorDropdown')) $('mentorDropdown').style.display = 'none';
+                if ($('mentorHeaderTrigger')) $('mentorHeaderTrigger').classList.remove('open');
+            });
+
+            $('mentorHeaderTrigger').addEventListener('click', toggleMentorDropdown);
+
+            $('mobileFab').addEventListener('click', openFeedbackModal);
+
+            $('loginBtn').addEventListener('click', handleLogin);
+            $('logoutBtn').addEventListener('click', handleLogout);
+            $('logoutBtnFollowup').addEventListener('click', handleLogout);
+            $('companySelect').addEventListener('change', function (e) { fetchDetails(e.target.value); });
+            $('refreshBtn').addEventListener('click', function () { const v = $('companySelect').value; if (v) { fetchDetails(v) } else { loadAllData(false) } toast('Refreshed') });
+            $('refreshFollowupBtn').addEventListener('click', function () { loadAllData(false); toast('Refreshed'); });
+            $('createFeedbackBtn').addEventListener('click', openFeedbackModal);
+            $('diagnoseBtn').addEventListener('click', openDiagnoseModal);
+            $('langToggle').addEventListener('click', function () { const cur = document.documentElement.getAttribute('lang') || 'ar'; langApply(cur === 'ar' ? 'en' : 'ar') });
+
+            $('diagnoseForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const btn = $('dSubmitBtn');
+                btn.disabled = true;
+                showLoading('Saving diagnose...');
+
+                const company = $('dCompanyName').value;
+                const age = $('dCompanyAge').value;
+                const loc = $('dLocation').value;
+                const size = $('dTeamSize').value;
+
+                // Combined string for Column C
+                const combined = `${company} \\ ${age} \\ ${loc} \\ ${size}`;
+
+                const formData = {
+                    mentorName: $('dMentorName').value,
+                    companyName: company,
+                    companyCombined: combined,
+                    history: $('dHistory').value,
+                    mainComplaint: $('dMainComplaint').value,
+                    symptoms: $('dSymptoms').value,
+                    signs: $('dSigns').value,
+                    expertNotes: $('dExpertNotes').value,
+                    possibleCauses: $('dPossibleCauses').value,
+                    tests: $('dTests').value,
+                    actualCause: $('dActualCause').value,
+                    solutionPlan: $('dSolutionPlan').value
+                };
+
+                google.script.run.withSuccessHandler(function () {
+                    hideLoading();
+                    toast('Diagnose saved successfully!');
+                    markClean();
+                    closeDiagnoseModal();
+                    btn.disabled = false;
+                }).withFailureHandler(function (err) {
+                    hideLoading();
+                    toast('Error saving diagnose: ' + err.message);
+                    btn.disabled = false;
+                }).submitDiagnose(formData);
+            });
+
+            // Star rating logic (Generic for all star groups)
+            document.querySelectorAll('.score-stars').forEach(container => {
+                const stars = container.querySelectorAll('.star');
+                const fieldId = container.getAttribute('data-field') || (container.id === 'starRating' ? 'fScore' : (container.id === 'efStarRating' ? 'efScore' : null));
+                if (!fieldId) return;
+
+                stars.forEach(s => {
+                    s.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        const val = parseInt(this.getAttribute('data-value'));
+                        const input = $(fieldId);
+                        if (input) input.value = val.toFixed(1);
+                        
+                        const scoreValGroup = container.querySelector('.score-value');
+                        if (scoreValGroup) scoreValGroup.textContent = val.toFixed(1);
+                        
+                        stars.forEach(x => {
+                            if (parseInt(x.getAttribute('data-value')) <= val) x.classList.add('active');
+                            else x.classList.remove('active');
+                        });
+                        markDirty();
+                    });
+                });
+            });
+
+            // Feedback form logic
+            $('fCompanyName').addEventListener('focus', function () { renderCompanySearchResults(this.value); });
+            $('fCompanyName').addEventListener('input', function () { renderCompanySearchResults(this.value); });
+            document.addEventListener('click', function (e) { if (!e.target.closest('.search-select')) $('companyResults').style.display = 'none'; });
+
+            $('feedbackForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const btn = $('fSubmitBtn');
+                btn.disabled = true;
+                showLoading('Submitting feedback...');
+
+                const formData = {
+                    mentorName: $('fMentorName').value,
+                    companyName: $('fCompanyName').value,
+                    dayOfSession: $('fDay').value,
+                    currentStatus: $('fStatus').value,
+                    achievements: $('fAchievements').value,
+                    actionSteps: $('fActionSteps').value,
+                    prodScore: $('fProdScore').value,
+                    opsScore: $('fOpsScore').value,
+                    salesScore: $('fSalesScore').value,
+                    mktScore: $('fMktScore').value,
+                    finScore: $('fFinScore').value,
+                    mentorScore: $('fScore').value,
+                    roundName: (currentRound || 'R_01').replace('R_', 'Round_')
+                };
+
+                if (!formData.companyName) {
+                    hideLoading();
+                    toast('Please select a company');
+                    btn.disabled = false;
+                    return;
+                }
+
+                if (!formData.dayOfSession) {
+                    hideLoading();
+                    btn.disabled = false;
+                    const dayEl = $('fDay').closest('.select-wrapper');
+                    dayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    dayEl.classList.add('error-glow');
+                    toast((document.documentElement.getAttribute('lang') || 'ar') === 'ar' ? 'يرجى اختيار يوم الجلسة' : 'Please select the session day');
+                    return;
+                }
+
+                google.script.run.withSuccessHandler(function () {
+                    hideLoading();
+                    toast('Feedback submitted successfully!');
+                    markClean();
+                    closeFeedbackModal();
+                    loadAllData(false); // Refresh list
+                    btn.disabled = false;
+                }).withFailureHandler(function (err) {
+                    hideLoading();
+                    toast('Error: ' + (err.message || 'Submission failed'));
+                    btn.disabled = false;
+                }).submitFeedback(formData);
+            });
+
+            // No custom mentor results logic needed for select element
+
+            // Followup filters
+            $('followupFilter').addEventListener('input', renderFollowUp);
+            $('filterAllBtn').addEventListener('click', function () {
+                followupFilterAssigned = false;
+                this.classList.add('btn'); this.classList.remove('secondary');
+                $('filterAssignedBtn').classList.add('secondary'); $('filterAssignedBtn').classList.remove('btn');
+                renderFollowUp();
+            });
+            $('filterAssignedBtn').addEventListener('click', function () {
+                followupFilterAssigned = true;
+                this.classList.add('btn'); this.classList.remove('secondary');
+                $('filterAllBtn').classList.add('secondary'); $('filterAllBtn').classList.remove('btn');
+                renderFollowUp();
+            });
+
+            $('editFollowupForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const btn = $('efSubmitBtn');
+                btn.disabled = true;
+                showLoading('Saving changes...');
+
+                const params = {
+                    roundId: currentRound,
+                    companyName: $('efCompany').value,
+                    sessionNum: parseInt($('efSessionNum').value),
+                    status: $('efStatus').value,
+                    achievements: $('efAchievements').value,
+                    actions: $('efActions').value,
+                    prodScore: $('efProdScore').value,
+                    opsScore: $('efOpsScore').value,
+                    salesScore: $('efSalesScore').value,
+                    mktScore: $('efMktScore').value,
+                    finScore: $('efFinScore').value,
+                    score: $('efScore').value
+                };
+
+                google.script.run.withSuccessHandler(function () {
+                    hideLoading();
+                    toast('Changes saved successfully!');
+                    markClean();
+                    closeEditFollowupModal();
+                    followUpData = []; // Force reload
+                    loadFollowUpLazy();
+                    btn.disabled = false;
+                }).withFailureHandler(function (err) {
+                    hideLoading();
+                    toast('Error: ' + err.message);
+                    btn.disabled = false;
+                }).updateFollowupSession(params.roundId, params.companyName, params.sessionNum, params.status, params.achievements, params.actions, params.prodScore, params.opsScore, params.salesScore, params.mktScore, params.finScore, params.score);
+            });
+
+            // Star rating for Edit
+            const efStars = document.querySelectorAll('.ef-star');
+            efStars.forEach(s => {
+                s.addEventListener('click', function () {
+                    const val = parseInt(this.getAttribute('data-value'));
+                    $('efScore').value = val.toFixed(1);
+                    $('efScoreValue').textContent = val.toFixed(1);
+                    efStars.forEach(x => {
+                        if (parseInt(x.getAttribute('data-value')) <= val) x.classList.add('active');
+                        else x.classList.remove('active');
+                    });
+                });
+            });
+
+            $('fDay').addEventListener('change', function () {
+                const lang = document.documentElement.getAttribute('lang') || 'ar';
+                if (this.value) {
+                    this.closest('.select-wrapper').classList.remove('error-glow');
+
+                    const companyName = $('fCompanyName').value;
+                    const dayNum = parseInt(this.value.split('_')[1]);
+                    const companyData = followUpData.find(c => c.company.toLowerCase() === companyName.toLowerCase());
+                    const session = companyData ? companyData.sessions.find(s => s.num === dayNum) : null;
+
+                    const isSubmitted = session && (
+                        (session.actions && session.actions.toString().trim() !== '') ||
+                        (session.score && session.score.toString().trim() !== '') ||
+                        (session.status && session.status.toString().trim() !== '')
+                    );
+
+                    if (isSubmitted) {
+                        $('fStatus').value = session.status || '';
+                        $('fAchievements').value = session.achievements || '';
+                        $('fActionSteps').value = session.actions || '';
+
+                        const score = parseFloat(session.score || 0);
+                        $('fScore').value = score.toFixed(1);
+                        $('fScoreValue').textContent = score.toFixed(1);
+                        document.querySelectorAll('#starRating .star').forEach(s => {
+                            if (parseInt(s.getAttribute('data-value')) <= score) s.classList.add('active');
+                            else s.classList.remove('active');
+                        });
+
+                        // Populating new evaluations for day switch
+                        const fields = [
+                            { id: 'fProdScore', val: session.prodScore },
+                            { id: 'fOpsScore', val: session.opsScore },
+                            { id: 'fSalesScore', val: session.salesScore },
+                            { id: 'fMktScore', val: session.mktScore },
+                            { id: 'fFinScore', val: session.finScore }
+                        ];
+                        fields.forEach(f => {
+                            const v = parseFloat(f.val || 0);
+                            $(f.id).value = v.toFixed(1);
+                            const container = $(f.id).parentElement.querySelector('.score-stars');
+                            if (container) {
+                                container.querySelectorAll('.star').forEach(s => {
+                                    if (parseInt(s.getAttribute('data-value')) <= v) s.classList.add('active');
+                                    else s.classList.remove('active');
+                                });
+                                const valEl = container.querySelector('.score-value');
+                                if (valEl) valEl.textContent = v.toFixed(1);
+                            }
+                        });
+
+                        lastLoadedDay = this.value; // Track that we loaded this day
+                        $('fSubmitBtn').textContent = i18n[lang].btn_save_changes;
+                    } else {
+                        // NEW behavior: Only reset if we were previously viewing a loaded day
+                        if (lastLoadedDay !== null) {
+                            ['fStatus', 'fAchievements', 'fActionSteps'].forEach(id => $(id).value = '');
+                            $('fScore').value = '0.0';
+                            $('fScoreValue').textContent = '0.0';
+                            document.querySelectorAll('#starRating .star').forEach(s => s.classList.remove('active'));
+                            
+                            // Reset new stars
+                            ['fProdScore', 'fOpsScore', 'fSalesScore', 'fMktScore', 'fFinScore'].forEach(id => {
+                                $(id).value = '0.0';
+                                const container = $(id).parentElement.querySelector('.score-stars');
+                                if (container) {
+                                    container.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+                                    const valEl = container.querySelector('.score-value');
+                                    if (valEl) valEl.textContent = '0.0';
+                                }
+                            });
+                        }
+                        lastLoadedDay = null;
+                        $('fSubmitBtn').textContent = i18n[lang].btn_submit;
+                    }
+
+                    // Update counters
+                    ['fStatus', 'fAchievements', 'fActionSteps'].forEach(id => updateCharCount($(id)));
+                }
+            });
+
+            // Attach Dirty Checks
+            const attachDirtyCheck = (formId) => {
+                const form = $(formId);
+                if (!form) return;
+                form.querySelectorAll('input, textarea, select').forEach(el => {
+                    el.addEventListener('input', markDirty);
+                    el.addEventListener('change', markDirty);
+                });
+            };
+            ['feedbackForm', 'diagnoseForm', 'editFollowupForm'].forEach(attachDirtyCheck);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+.admin-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.admin-header h1 {
+  font-size: 32px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.refresh-btn, .logout-btn {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 12px;
+}
+
+.refresh-btn { background: var(--card-2); border: 1px solid var(--border); }
+.logout-btn { background: var(--danger); color: white; border: none; }
+
+.admin-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  background: var(--card-2);
+  padding: 8px;
+  border-radius: 16px;
+  width: fit-content;
+}
+
+.admin-tabs button {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  font-weight: 800;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-tabs button.active {
+  background: var(--card);
+  color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.s-card {
+  background: var(--card);
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.s-card span { font-size: 13px; font-weight: 700; color: var(--muted); }
+.s-card strong { font-size: 40px; font-weight: 900; color: var(--accent); }
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.admin-table th {
+  background: var(--card-2);
+  padding: 20px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-table td {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tag.active { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+.tag.inactive { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
