@@ -11,13 +11,13 @@ const AppContent = () => {
 
   // Check for existing session on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem('mentor_user');
-    if (savedUser) {
-      try {
+    try {
+      const savedUser = localStorage.getItem('mentor_user');
+      if (savedUser) {
         setUser(JSON.parse(savedUser));
-      } catch (e) {
-        console.error("Failed to parse saved user", e);
       }
+    } catch (e) {
+      console.warn("Session recovery blocked or failed:", e);
     }
     setLoading(false);
   }, [setUser]);

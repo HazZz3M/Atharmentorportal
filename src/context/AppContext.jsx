@@ -101,21 +101,43 @@ const translations = {
   }
 };
 
+const safeStorage = {
+  get: (key, fallback) => {
+    try {
+      return localStorage.getItem(key) || fallback;
+    } catch (e) {
+      console.warn("Storage access blocked:", e);
+      return fallback;
+    }
+  },
+  set: (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      console.warn("Storage write blocked:", e);
+    }
+  }
+};
+
 export const AppProvider = ({ children }) => {
-  const [lang, setLang] = useState(localStorage.getItem('mentor_lang') || 'ar');
-  const [theme, setTheme] = useState(localStorage.getItem('mentor_theme') || 'light');
+  const [lang, setLang] = useState(() => safeStorage.get('mentor_lang', 'ar'));
+  const [theme, setTheme] = useState(() => safeStorage.get('mentor_theme', 'light'));
   const [user, setUser] = useState(null);
-  const [currentRound, setCurrentRound] = useState(localStorage.getItem('mentor_round') || '');
+  const [currentRound, setCurrentRound] = useState(() => safeStorage.get('mentor_round', ''));
 
   useEffect(() => {
-    document.documentElement.setAttribute('lang', lang);
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    localStorage.setItem('mentor_lang', lang);
+    try {
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      safeStorage.set('mentor_lang', lang);
+    } catch (e) {}
   }, [lang]);
 
   useEffect(() => {
-    document.body.setAttribute('data-theme', theme);
-    localStorage.setItem('mentor_theme', theme);
+    try {
+      document.body.setAttribute('data-theme', theme);
+      safeStorage.set('mentor_theme', theme);
+    } catch (e) {}
   }, [theme]);
 
   const t = (key) => translations[lang][key] || key;

@@ -129,15 +129,17 @@ const Login = () => {
                                 <div className="step-content fade-in">
                                     <label>{t('label_round')}</label>
                                     <div className="rounds-grid">
-                                        {Array.isArray(rounds) && rounds.map(r => (
+                                        {Array.isArray(rounds) && rounds.length > 0 ? rounds.map(r => (
                                             <button 
                                                 key={r.id} 
                                                 className={`round-btn ${currentRound === r.id ? 'active' : ''}`}
                                                 onClick={() => handleRoundSelect(r.id)}
                                             >
-                                                {r.name}
+                                                {r.label || r.name || r.id}
                                             </button>
-                                        ))}
+                                        )) : (
+                                            <div className="no-data">No active rounds found.</div>
+                                        )}
                                     </div>
                                 </div>
                             )}
